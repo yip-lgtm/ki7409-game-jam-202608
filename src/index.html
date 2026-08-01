@@ -1,30 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My HTML5 Game</title>
+  <title>迷茫即是前進 — 湊企鵝篇</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="game-root">
-    <header>
-      <h1>My HTML5 Game</h1>
-      <p class="subtitle">A vanilla JS scaffold — replace this with your game.</p>
-    </header>
+  <!-- ==================== Title Screen ==================== -->
+  <div id="title-screen" class="screen active">
+    <div class="title-bg"></div>
+    <div class="title-content">
+      <h1 class="title-main">迷茫即是前進</h1>
+      <h2 class="title-sub">— 湊企鵝篇 —</h2>
+      <p class="title-tagline">BanG Dream! 同人二次創作 · 純文字懸疑劇</p>
 
-    <main>
-      <canvas id="game-canvas" width="800" height="600" aria-label="Game canvas"></canvas>
+      <div class="title-buttons">
+        <button id="btn-start" class="btn-primary">開始</button>
+        <button id="btn-lang"  class="btn-secondary">語言:繁體中文</button>
+        <button id="btn-credits" class="btn-secondary">關於</button>
+      </div>
 
-      <section id="hud" aria-live="polite">
-        <span class="hud-item">Score: <strong id="score">0</strong></span>
-        <span class="hud-item">FPS: <strong id="fps">--</strong></span>
-      </section>
-    </main>
+      <p class="title-disclaimer">
+        本作品為粉絲同人二次創作,非商業用途。<br />
+        原 IP:《BanG Dream! It's MyGO!!!!!》《BanG Dream! Ave Mujica》© Bushiroad
+      </p>
+    </div>
+  </div>
 
-    <footer>
-      <p>Controls: ← → to move, Space to act. Click canvas to focus.</p>
-    </footer>
+  <!-- ==================== Game Screen ==================== -->
+  <div id="game-screen" class="screen">
+    <!-- background layer -->
+    <div id="bg-layer" class="bg-layer"></div>
+
+    <!-- visual effects overlay (for memory / flashback) -->
+    <div id="fx-layer" class="fx-layer"></div>
+
+    <!-- portrait layer (character silhouettes as text) -->
+    <div id="portrait-layer" class="portrait-layer"></div>
+
+    <!-- text box (bottom) -->
+    <div id="text-box" class="text-box">
+      <div class="text-box-header">
+        <span id="speaker-name" class="speaker-name"></span>
+        <span id="pov-indicator" class="pov-indicator"></span>
+      </div>
+      <div id="text-content" class="text-content"></div>
+      <div class="text-box-footer">
+        <span class="hint">點擊或按 SPACE 繼續</span>
+      </div>
+    </div>
+
+    <!-- choice overlay (when scene has choices) -->
+    <div id="choice-layer" class="choice-layer hidden"></div>
+
+    <!-- HUD (top) -->
+    <div id="hud" class="hud">
+      <span id="scene-title" class="scene-title"></span>
+      <span id="lang-toggle" class="lang-toggle" title="切換語言">繁</span>
+    </div>
+  </div>
+
+  <!-- ==================== Credits Screen ==================== -->
+  <div id="credits-screen" class="screen">
+    <div class="credits-content">
+      <h2>關於本作</h2>
+      <p>
+        《迷茫即是前進 — 湊企鵝篇》<br />
+        一部以 CRYCHIC 解散之夜為錨點的純文字懸疑劇。<br />
+        玩家扮演一名路人,見證 9 名角色的崩潰與覺醒。
+      </p>
+
+      <h3>製作</h3>
+      <ul>
+        <li>劇本 / 程式 / 美術(文字):<strong>yip-lgtm</strong></li>
+        <li>AI 協作:<strong>Claude Code</strong>(Mavis / 49 agents studio)</li>
+        <li>原 IP:<strong>BanG Dream! It's MyGO!!!!! / Ave Mujica</strong> © Bushiroad</li>
+        <li>企鵝設定致敬:<strong>公主連結 Re:Dive</strong>(同位體,非 crossover)</li>
+      </ul>
+
+      <h3>授權</h3>
+      <p>CC BY-NC 4.0(同人非商用)</p>
+
+      <h3>特別感謝</h3>
+      <p>BanG Dream! 粉絲 · 公主連結粉絲 · bilibili 二創生態</p>
+
+      <button id="btn-back" class="btn-secondary">返回</button>
+    </div>
   </div>
 
   <script type="module" src="main.js"></script>
