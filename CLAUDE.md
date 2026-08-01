@@ -1,25 +1,28 @@
 # ki7409-game-jam-202608 — 同人 Galgame Project
 
+**你是湊企鵝,你是誰啊?** —— 一部基於 BanG Dream! 迷因改編的純文字音樂懸疑劇。
+
 One-person, ~1-month game jam visual novel. Browser-based, no engine, vanilla
 HTML/CSS/JS. Driven by Claude Code subagents from the studio template under
 `.claude/` (49 agents, 73 skills, 12 hooks).
 
 ## Project Type
 
-- **Genre**: 同人 galgame / visual novel (text-heavy, branching choices, character routes)
-- **Audience**: Chinese / Traditional Chinese readers (繁中)
-- **Scope**: One playable route + intro/common route; vertical-slice quality
-- **Duration target**: 30–90 minutes of reading per playthrough
-- **Delivery**: Static HTML5, runs in any modern browser
+- **Genre**: 同人迷因改編 galgame / visual novel / 音樂懸疑
+- **Player = 湊企鵝(神主唱)**:能唱所有歌, 但不知道自己在唱什麼
+- **Audience**: BanG Dream! 粉絲 + bilibili 二創圈 + 公主連結企鵝同好
+- **Scope**: 1 路線(主唱線) + Common Route; 垂直切片品質
+- **Duration target**: 90 分鐘閱讀
+- **Delivery**: 靜態 HTML5, 任何現代瀏覽器即開即玩
+- **Meme 設定**: 高松燈 = 湊企鵝, 玩家 = 企鵝, 咕咕嘎嘎
 
 ## Technology Stack
 
 - **Target**: HTML5 / Web (browser, runs from `src/index.html`)
 - **Language**: Vanilla JavaScript (ES2020+), HTML5, CSS3
-- **No framework**: DOM-based UI (text box, choice buttons, character portrait slot)
-- **No build step required** by default — open `src/index.html` in a browser
-- **Optional build**: Vite ONLY if modules get heavy
-- **Asset Pipeline**: Plain files under `assets/` (portraits `*.webp`, BGM `*.ogg`, SFX `*.mp3`)
+- **企鵝立繪**: 純 SVG (0 圖片依賴, 0 版權風險)
+- **No build step** required — open `src/index.html` via http server
+- **No 音頻** (歌曲版權) —— 只引用歌名 + 揭示 + 通關後鏈接
 - **Hosting**: itch.io HTML5 upload or GitHub Pages
 
 > **Note**: Bypasses `setup-engine` (which only supports Godot/Unity/Unreal).

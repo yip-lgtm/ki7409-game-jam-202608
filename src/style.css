@@ -1,6 +1,5 @@
 /* ====================================================================
-   迷茫即是前進 — 湊企鵝篇
-   Visual Novel UI — vanilla CSS, no framework
+   你是湊企鵝, 你是誰啊? — VN UI
    ==================================================================== */
 
 :root {
@@ -10,10 +9,14 @@
   --fg-muted: #8889a0;
   --accent: #6cc6ff;
   --accent-soft: #4a8fb8;
-  --textbox-bg: rgba(10, 11, 20, 0.88);
+  --penguin-pink: #fce8d8;
+  --penguin-hair: #3a3a3a;
+  --penguin-body: #1a1a1a;
+  --penguin-belly: #f5f5f0;
+  --penguin-foot: #ff7f24;
+  --textbox-bg: rgba(10, 11, 20, 0.92);
   --textbox-border: #2a2e4a;
   --choice-hover: #2a2e4a;
-  --memorial: #1a1a2e;
   --serif: "Noto Serif TC", "Source Han Serif TC", "PMingLiU", "Times New Roman", serif;
   --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
 }
@@ -31,7 +34,21 @@ html, body {
 }
 
 /* ====================================================================
-   Screens (mutually exclusive)
+   Background variations
+   ==================================================================== */
+
+.bg-rooftop { background: linear-gradient(180deg, #0a0b14 0%, #1a1c3a 50%, #2a2e4a 100%); }
+.bg-street  { background: linear-gradient(180deg, #0a0b14 0%, #14162a 60%, #1a1c3a 100%); }
+.bg-house   { background: linear-gradient(180deg, #0a0b14 0%, #1a1a2e 50%, #2a1a2e 100%); }
+
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+}
+
+/* ====================================================================
+   Screens
    ==================================================================== */
 
 .screen {
@@ -51,6 +68,7 @@ html, body {
   justify-content: center;
   text-align: center;
   background: radial-gradient(ellipse at center, #1a1c3a 0%, #0a0b14 70%);
+  position: relative;
 }
 
 .title-bg {
@@ -72,15 +90,32 @@ html, body {
   to   { opacity: 0.6; }
 }
 
+.title-penguin {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 250px;
+  z-index: 1;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.title-penguin:hover {
+  transform: translateX(-50%) scale(1.05) rotate(2deg);
+}
+
 .title-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   padding: 2rem;
+  margin-top: 220px;
 }
 
 .title-main {
   font-family: var(--serif);
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 400;
   letter-spacing: 0.15em;
   color: var(--fg);
@@ -91,18 +126,18 @@ html, body {
 
 .title-sub {
   font-family: var(--serif);
-  font-size: 1.4rem;
+  font-size: 2rem;
   font-weight: 300;
   color: var(--accent);
   letter-spacing: 0.2em;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   animation: fadeIn 2.5s ease-out;
 }
 
 .title-tagline {
   font-size: 0.9rem;
   color: var(--fg-muted);
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   letter-spacing: 0.1em;
 }
 
@@ -111,7 +146,7 @@ html, body {
   flex-direction: column;
   gap: 0.8rem;
   align-items: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .title-disclaimer {
@@ -161,18 +196,12 @@ html, body {
 }
 
 /* ====================================================================
-   Game Screen — base layers
+   Game Screen
    ==================================================================== */
 
 #game-screen {
   background: var(--bg);
-}
-
-.bg-layer {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, #0a0b14 0%, #14162a 50%, #1a1c3a 100%);
-  transition: filter 0.6s;
+  position: relative;
 }
 
 .fx-layer {
@@ -180,13 +209,13 @@ html, body {
   inset: 0;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.4s;
+  transition: opacity 0.4s, filter 0.4s, background 0.4s;
 }
 
 .fx-layer.grayscale {
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: grayscale(100%) brightness(0.7);
-  -webkit-backdrop-filter: grayscale(100%) brightness(0.7);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: grayscale(100%) brightness(0.65);
+  -webkit-backdrop-filter: grayscale(100%) brightness(0.65);
   opacity: 1;
 }
 
@@ -204,11 +233,15 @@ html, body {
 
 .fx-layer.colorize {
   background: linear-gradient(180deg,
-    rgba(255, 200, 100, 0.05) 0%,
-    rgba(108, 198, 255, 0.05) 50%,
-    rgba(180, 100, 200, 0.05) 100%);
+    rgba(255, 220, 100, 0.08) 0%,
+    rgba(108, 198, 255, 0.08) 50%,
+    rgba(255, 150, 200, 0.08) 100%);
   opacity: 1;
 }
+
+/* ====================================================================
+   Penguin Portrait (CSS + SVG)
+   ==================================================================== */
 
 .portrait-layer {
   position: absolute;
@@ -217,25 +250,39 @@ html, body {
   align-items: flex-end;
   justify-content: center;
   pointer-events: none;
+  padding-bottom: 30%;
 }
 
-.portrait {
-  font-family: var(--serif);
-  font-size: 12rem;
-  opacity: 0.08;
-  margin-bottom: 25%;
-  filter: drop-shadow(0 0 20px var(--accent));
-  transition: opacity 0.5s;
+.penguin {
+  width: 240px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 30px rgba(108, 198, 255, 0.3));
+  transition: all 0.3s;
 }
 
-.portrait.penguin {
-  /* silhouette hint that this is "not human" */
-  filter: drop-shadow(0 0 30px rgba(108, 198, 255, 0.6));
-  opacity: 0.15;
+.penguin svg {
+  width: 100%;
+  height: 100%;
+}
+
+.penguin.shout {
+  animation: jump 0.5s ease-in-out;
+}
+
+.penguin.sing {
+  filter: drop-shadow(0 0 40px rgba(255, 200, 100, 0.6));
+}
+
+@keyframes jump {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-15px); }
 }
 
 /* ====================================================================
-   Text Box (bottom)
+   Text Box
    ==================================================================== */
 
 .text-box {
@@ -266,6 +313,11 @@ html, body {
   letter-spacing: 0.1em;
 }
 
+.speaker-name:empty::before {
+  content: '—';
+  color: var(--fg-muted);
+}
+
 .pov-indicator {
   font-size: 0.8rem;
   color: var(--fg-muted);
@@ -290,6 +342,7 @@ html, body {
 .text-content .song {
   color: var(--accent);
   text-shadow: 0 0 8px rgba(108, 198, 255, 0.4);
+  font-weight: 500;
 }
 
 .text-box-footer {
@@ -316,7 +369,7 @@ html, body {
 .choice-layer {
   position: absolute;
   inset: 0;
-  background: rgba(10, 11, 20, 0.85);
+  background: rgba(10, 11, 20, 0.88);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -350,6 +403,13 @@ html, body {
   transition: all 0.2s;
 }
 
+.choice-hint {
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  margin-top: 0.3rem;
+  letter-spacing: 0.05em;
+}
+
 .choice-btn:hover {
   background: var(--choice-hover);
   border-color: var(--accent);
@@ -358,7 +418,73 @@ html, body {
 }
 
 /* ====================================================================
-   HUD (top)
+   Reveal Layer (歌名揭示)
+   ==================================================================== */
+
+.reveal-layer {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 11, 20, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  padding: 2rem;
+  animation: revealFadeIn 0.5s ease-out;
+}
+
+.reveal-layer.hidden { display: none; }
+
+@keyframes revealFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.reveal-card {
+  background: rgba(20, 22, 42, 0.95);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 2rem 2.5rem;
+  max-width: 480px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(108, 198, 255, 0.3);
+}
+
+.reveal-title {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 12px rgba(108, 198, 255, 0.5);
+}
+
+.reveal-body {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: var(--fg);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.reveal-btn {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid var(--accent);
+  background: rgba(108, 198, 255, 0.1);
+  color: var(--accent);
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+}
+
+.reveal-btn:hover {
+  background: rgba(108, 198, 255, 0.25);
+}
+
+/* ====================================================================
+   HUD
    ==================================================================== */
 
 .hud {
@@ -402,7 +528,7 @@ html, body {
 }
 
 /* ====================================================================
-   Credits Screen
+   Credits
    ==================================================================== */
 
 #credits-screen {
@@ -435,15 +561,10 @@ html, body {
   margin-bottom: 0.8rem;
 }
 
-.credits-content p, .credits-content li {
+.credits-content p {
   font-size: 0.95rem;
   color: var(--fg-muted);
   margin-bottom: 0.5rem;
-}
-
-.credits-content ul {
-  list-style: none;
-  padding: 0;
 }
 
 /* ====================================================================
@@ -451,10 +572,12 @@ html, body {
    ==================================================================== */
 
 @media (max-width: 600px) {
-  .title-main { font-size: 2.2rem; }
-  .title-sub  { font-size: 1rem; }
-  .portrait   { font-size: 8rem; }
+  .title-main { font-size: 2rem; }
+  .title-sub  { font-size: 1.3rem; }
+  .penguin    { width: 160px; height: 220px; }
   .text-box   { padding: 1rem 1.2rem 0.8rem; min-height: 150px; }
   .text-content { font-size: 0.95rem; }
   .choice-btn { min-width: 240px; font-size: 0.9rem; }
+  .reveal-card { padding: 1.5rem 1.5rem; }
+  .reveal-title { font-size: 1.1rem; }
 }

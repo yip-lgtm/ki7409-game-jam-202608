@@ -3,17 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>迷茫即是前進 — 湊企鵝篇</title>
+  <title>你是湊企鵝, 你是誰啊?</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="bg-rooftop">
   <!-- ==================== Title Screen ==================== -->
   <div id="title-screen" class="screen active">
     <div class="title-bg"></div>
+
+    <!-- 企鵝立繡(中央, 可點擊) -->
+    <div class="title-penguin">
+      <div class="penguin penguin-neutral" id="title-penguin-svg"></div>
+    </div>
+
     <div class="title-content">
-      <h1 class="title-main">迷茫即是前進</h1>
-      <h2 class="title-sub">— 湊企鵝篇 —</h2>
-      <p class="title-tagline">BanG Dream! 同人二次創作 · 純文字懸疑劇</p>
+      <h1 class="title-main">你是湊企鵝,</h1>
+      <h2 class="title-sub">你是誰啊?</h2>
+      <p class="title-tagline">BanG Dream! 同人迷因改編 · 純文字音樂懸疑劇</p>
 
       <div class="title-buttons">
         <button id="btn-start" class="btn-primary">開始</button>
@@ -23,23 +29,18 @@
 
       <p class="title-disclaimer">
         本作品為粉絲同人二次創作,非商業用途。<br />
-        原 IP:《BanG Dream! It's MyGO!!!!!》《BanG Dream! Ave Mujica》© Bushiroad
+        角色均為代號,IP 引用僅作梗,音樂僅引用歌名。<br />
+        原作:BanG Dream! It's MyGO!!!!! / Ave Mujica © Bushiroad
       </p>
     </div>
   </div>
 
   <!-- ==================== Game Screen ==================== -->
   <div id="game-screen" class="screen">
-    <!-- background layer -->
     <div id="bg-layer" class="bg-layer"></div>
-
-    <!-- visual effects overlay (for memory / flashback) -->
     <div id="fx-layer" class="fx-layer"></div>
-
-    <!-- portrait layer (character silhouettes as text) -->
     <div id="portrait-layer" class="portrait-layer"></div>
 
-    <!-- text box (bottom) -->
     <div id="text-box" class="text-box">
       <div class="text-box-header">
         <span id="speaker-name" class="speaker-name"></span>
@@ -51,10 +52,11 @@
       </div>
     </div>
 
-    <!-- choice overlay (when scene has choices) -->
     <div id="choice-layer" class="choice-layer hidden"></div>
 
-    <!-- HUD (top) -->
+    <!-- 歌名揭示層(0.5s 延遲顯示) -->
+    <div id="reveal-layer" class="reveal-layer hidden"></div>
+
     <div id="hud" class="hud">
       <span id="scene-title" class="scene-title"></span>
       <span id="lang-toggle" class="lang-toggle" title="切換語言">繁</span>
@@ -65,25 +67,16 @@
   <div id="credits-screen" class="screen">
     <div class="credits-content">
       <h2>關於本作</h2>
-      <p>
-        《迷茫即是前進 — 湊企鵝篇》<br />
-        一部以 CRYCHIC 解散之夜為錨點的純文字懸疑劇。<br />
-        玩家扮演一名路人,見證 9 名角色的崩潰與覺醒。
-      </p>
+      <p>玩家 = 湊企鵝(社群 meme 形象)。你能唱所有歌,但你不知道自己在唱什麼。90 分鐘,1 路線,1 結局。</p>
 
       <h3>製作</h3>
-      <ul>
-        <li>劇本 / 程式 / 美術(文字):<strong>yip-lgtm</strong></li>
-        <li>AI 協作:<strong>Claude Code</strong>(Mavis / 49 agents studio)</li>
-        <li>原 IP:<strong>BanG Dream! It's MyGO!!!!! / Ave Mujica</strong> © Bushiroad</li>
-        <li>企鵝設定致敬:<strong>公主連結 Re:Dive</strong>(同位體,非 crossover)</li>
-      </ul>
+      <p>劇本 / 程式 / 企鵝立繪(純 CSS):<strong>yip-lgtm</strong><br>AI 協作:Claude Code (Mavis / 49 agents studio)<br>原 IP:BanG Dream! It's MyGO!!!!! / Ave Mujica © Bushiroad(同人非商用)<br>湊企鵝 / 咕咕嘎嘎:bilibili 社群二創 meme</p>
 
       <h3>授權</h3>
       <p>CC BY-NC 4.0(同人非商用)</p>
 
       <h3>特別感謝</h3>
-      <p>BanG Dream! 粉絲 · 公主連結粉絲 · bilibili 二創生態</p>
+      <p>BanG Dream! 粉絲 · bilibili 二創圈 · 公主連結企鵝同好</p>
 
       <button id="btn-back" class="btn-secondary">返回</button>
     </div>
