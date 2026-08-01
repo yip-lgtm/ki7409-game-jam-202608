@@ -222,48 +222,59 @@ function applyPortrait(scene) {
 }
 
 function getPenguinSVG(expr) {
-  // 純 SVG 企鵝:頭(短髮女生) + 身(企鵝) + 腳(橙)
+  // 純 SVG 企鵝:頭(高松燈的髮型) + 身(企鵝) + 腳(橙)
   // 表情切換:neutral / shout / sad / sing
+  // 高松燈的髮型:深灰帶微棕,中等長度,齊耳,齊劉海
   const face = {
     neutral: { eyes: '◕  ◕', mouth: '‿' },
-    shout:   { eyes: '×  ×', mouth: '○' },
+    shout:   { eyes: '×  ×', mouth: '>﹏<' },
     sad:     { eyes: '•  •', mouth: '︵' },
     sing:    { eyes: '◠  ◠', mouth: '○' },
   }[expr] || { eyes: '◕  ◕', mouth: '‿' };
 
   return `
-    <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" aria-label="湊企鵝">
-      <!-- 企鵝身體(白肚) -->
-      <ellipse cx="100" cy="170" rx="55" ry="80" fill="#1a1a1a" />
-      <ellipse cx="100" cy="180" rx="38" ry="65" fill="#f5f5f0" />
+    <svg viewBox="0 0 200 320" xmlns="http://www.w3.org/2000/svg" aria-label="高松燈(企鵝版)">
+      <!-- 企鵝身體(白肚 + 黑背) -->
+      <ellipse cx="100" cy="200" rx="60" ry="90" fill="#1a1a1a" />
+      <ellipse cx="100" cy="210" rx="42" ry="75" fill="#f8f5ec" />
 
       <!-- 翅膀(企鵝鰭) -->
-      <ellipse cx="40" cy="180" rx="14" ry="50" fill="#1a1a1a" transform="rotate(-15 40 180)" />
-      <ellipse cx="160" cy="180" rx="14" ry="50" fill="#1a1a1a" transform="rotate(15 160 180)" />
+      <ellipse cx="38"  cy="210" rx="15" ry="55" fill="#1a1a1a" transform="rotate(-12 38 210)" />
+      <ellipse cx="162" cy="210" rx="15" ry="55" fill="#1a1a1a" transform="rotate(12 162 210)" />
 
       <!-- 腳(橙) -->
-      <ellipse cx="80" cy="255" rx="18" ry="8" fill="#ff7f24" />
-      <ellipse cx="120" cy="255" rx="18" ry="8" fill="#ff7f24" />
+      <ellipse cx="78"  cy="295" rx="20" ry="9" fill="#ff7f24" />
+      <ellipse cx="122" cy="295" rx="20" ry="9" fill="#ff7f24" />
 
-      <!-- 頭(短髮女生) -->
-      <ellipse cx="100" cy="80" rx="40" ry="45" fill="#fce8d8" />
+      <!-- 頭(人頭, 高松燈髮型) -->
+      <ellipse cx="100" cy="90" rx="42" ry="48" fill="#fce8d8" />
 
-      <!-- 短髮(深灰) -->
-      <path d="M 60 60 Q 60 35 100 35 Q 140 35 140 60 L 140 80 Q 130 50 100 50 Q 70 50 60 80 Z"
-            fill="#3a3a3a" />
-      <path d="M 60 60 Q 55 75 60 100 L 65 95 Q 62 80 65 70 Z" fill="#3a3a3a" />
-      <path d="M 140 60 Q 145 75 140 100 L 135 95 Q 138 80 135 70 Z" fill="#3a3a3a" />
+      <!-- 短髮(原作高松燈的髮色, 深棕灰) -->
+      <!-- 頭頂主塊 -->
+      <path d="M 56 70 Q 56 38 100 38 Q 144 38 144 70 L 144 95 Q 134 60 100 60 Q 66 60 56 95 Z"
+            fill="#3d3024" />
+      <!-- 劉海(齊劉海, 蓋到眉毛) -->
+      <path d="M 60 75 Q 100 55 140 75 L 140 88 Q 100 70 60 88 Z"
+            fill="#2d2418" />
+      <!-- 側髮(蓋到耳) -->
+      <path d="M 56 70 Q 50 90 56 115 L 62 110 Q 58 95 62 80 Z" fill="#3d3024" />
+      <path d="M 144 70 Q 150 90 144 115 L 138 110 Q 142 95 138 80 Z" fill="#3d3024" />
+      <!-- 後髮(脖子後) -->
+      <path d="M 70 130 Q 100 145 130 130 L 130 140 Q 100 150 70 140 Z" fill="#2d2418" />
 
       <!-- 眼睛 -->
-      <text x="86" y="85" font-family="serif" font-size="16" fill="#1a1a1a">${face.eyes.split('  ')[0]}</text>
-      <text x="110" y="85" font-family="serif" font-size="16" fill="#1a1a1a">${face.eyes.split('  ')[1]}</text>
+      <text x="86" y="95" font-family="serif" font-size="18" fill="#1a1a1a">${face.eyes.split('  ')[0]}</text>
+      <text x="110" y="95" font-family="serif" font-size="18" fill="#1a1a1a">${face.eyes.split('  ')[1]}</text>
 
-      <!-- 嘴 -->
-      <text x="93" y="105" font-family="serif" font-size="20" fill="#1a1a1a">${face.mouth}</text>
+      <!-- 嘴(企鵝喙, 三角形) -->
+      <path d="M 95 110 L 105 110 L 100 118 Z" fill="#ff7f24" stroke="#cc5a10" stroke-width="0.5" />
+      ${face.mouth === '>﹏<' ? `<text x="93" y="113" font-family="serif" font-size="14" fill="#cc5a10">${face.mouth}</text>` : ''}
+      ${face.mouth === '○' ? `<ellipse cx="100" cy="113" rx="3" ry="4" fill="#cc5a10" />` : ''}
+      ${face.mouth === '︵' ? `<path d="M 96 113 Q 100 116 104 113" stroke="#cc5a10" stroke-width="1.5" fill="none" />` : ''}
 
-      <!-- 腮紅 -->
-      <circle cx="78" cy="98" r="3" fill="#ffaaaa" opacity="0.6" />
-      <circle cx="122" cy="98" r="3" fill="#ffaaaa" opacity="0.6" />
+      <!-- 腮紅(原作風) -->
+      <ellipse cx="78" cy="108" rx="4" ry="3" fill="#ffaaaa" opacity="0.5" />
+      <ellipse cx="122" cy="108" rx="4" ry="3" fill="#ffaaaa" opacity="0.5" />
     </svg>
   `;
 }
