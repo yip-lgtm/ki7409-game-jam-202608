@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>迷茫即是前進 — 高松燈(企鵝版)篇</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #0a0b14; color: #e8e9f0; font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif; line-height: 1.8; }
+    .container { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem; }
+    h1 { font-size: 2.4rem; font-weight: 300; letter-spacing: 0.05em; margin-bottom: 0.5rem; text-align: center; }
+    h1 .accent { color: #6cc6ff; }
+    h2 { font-size: 1.4rem; font-weight: 400; color: #6cc6ff; margin: 2.5rem 0 1rem; border-bottom: 1px solid #2a2e4a; padding-bottom: 0.4rem; }
+    h3 { font-size: 1.1rem; font-weight: 500; margin: 1.5rem 0 0.6rem; color: #c0c0d0; }
+    p { margin: 0.6rem 0; color: #c8cad8; }
+    .tagline { text-align: center; color: #8889a0; margin-bottom: 2.5rem; font-size: 0.95rem; letter-spacing: 0.05em; }
+    .start-btn {
+      display: block;
+      width: 280px;
+      max-width: 100%;
+      margin: 2rem auto;
+      padding: 1.2rem 2rem;
+      background: linear-gradient(135deg, #6cc6ff 0%, #4a8fb8 100%);
+      color: #0a0b14;
+      text-decoration: none;
+      font-size: 1.3rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      border-radius: 4px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(108, 198, 255, 0.3);
+    }
+    .start-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(108, 198, 255, 0.5); }
+    .start-btn:active { transform: translateY(0); }
+    .start-sub { text-align: center; color: #8889a0; font-size: 0.85rem; margin-top: -1rem; margin-bottom: 2rem; }
+    .meta { background: #14162a; border: 1px solid #2a2e4a; border-radius: 4px; padding: 1rem 1.2rem; margin: 1.5rem 0; font-size: 0.9rem; }
+    .meta li { list-style: none; margin: 0.3rem 0; color: #c8cad8; }
+    code { background: #14162a; padding: 0.1rem 0.4rem; border-radius: 3px; color: #6cc6ff; font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.9em; }
+    pre { background: #14162a; padding: 1rem; border-radius: 4px; border: 1px solid #2a2e4a; overflow-x: auto; margin: 1rem 0; }
+    pre code { background: transparent; padding: 0; }
+    .star-field { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle 4s ease-in-out infinite;
+    }
+    @keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.8; } }
+    .ip-notice { background: #1a1c3a; border-left: 3px solid #6cc6ff; padding: 0.8rem 1rem; margin: 1.5rem 0; font-size: 0.85rem; color: #8889a0; }
+    a { color: #6cc6ff; }
+  </style>
+</head>
+<body>
+  <div class="star-field">
+    <div class="star" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
+    <div class="star" style="top: 30%; left: 70%; animation-delay: 1s;"></div>
+    <div class="star" style="top: 60%; left: 25%; animation-delay: 2s;"></div>
+    <div class="star" style="top: 80%; left: 80%; animation-delay: 0.5s;"></div>
+    <div class="star" style="top: 45%; left: 50%; animation-delay: 1.5s;"></div>
+    <div class="star" style="top: 20%; left: 85%; animation-delay: 2.5s;"></div>
+  </div>
+
+  <div class="container">
+    <h1>迷茫即是前進<span class="accent">.</span></h1>
+    <p class="tagline">高松燈(企鵝版)篇 — BanG Dream! 同人二次創作</p>
+
+    <a href="src/index.html" class="start-btn">▶ 開始遊戲</a>
+    <p class="start-sub">純文字音樂懸疑劇 · 90 分鐘 · 繁簡切換</p>
+
+    <h2>關於本作</h2>
+    <p>你叫高松燈。但你是一隻企鵝。</p>
+    <p>你站在 Live House 屋頂,看著 8 個人準備散場。你不知道「CRYCHIC」是什麼,不知道「主唱」是什麼,不知道為什麼大家看著你。你只知道一件事:你想唱歌。</p>
+    <p>純文字音樂懸疑劇,玩家 = 企鵝版高松燈,角色全部用原作真名。</p>
+
+    <h2>技術棧</h2>
+    <ul class="meta">
+      <li>• HTML5 + Vanilla JS,無引擎</li>
+      <li>• 純 SVG 企鵝立繭(0 圖片依賴,0 版權風險)</li>
+      <li>• 8 首歌的歌名揭示機制</li>
+      <li>• 繁簡切換</li>
+      <li>• 完全靜態,可離線玩</li>
+    </ul>
+
+    <h2>本地運行</h2>
+    <p>如果你想本地開發:</p>
+<pre><code>git clone git@github.com:yip-lgtm/ki7409-game-jam-202608.git
+cd ki7409-game-jam-202608
+cd src
+python3 -m http.server 8000
+# 瀏覽器打開 http://localhost:8000</code></pre>
+
+    <h2>操作</h2>
+    <ul class="meta">
+      <li>• <code>SPACE</code> / <code>Enter</code> / 點擊 — 推進文本</li>
+      <li>• 點擊選項按鈕 — 選擇分支</li>
+      <li>• 點擊右上「繁 / 简」— 切換語言</li>
+      <li>• 標題屏點擊企鵝 — 切換企鵝表情</li>
+    </ul>
+
+    <h2>IP / 版權</h2>
+    <div class="ip-notice">
+      本作品為粉絲同人二次創作,非商業用途,自娛為主。<br>
+      原 IP:BanG Dream! It's MyGO!!!!! / Ave Mujica © Bushiroad<br>
+      角色名 / 歌名 = 合理使用(同人,零收費,不引歌詞)<br>
+      高松燈立繭 = 自創「企鵝版」(人頭 + 企鵝身,純 SVG)<br>
+      音頻 = 0 嵌入 · 授權 CC BY-NC 4.0
+    </div>
+
+    <h2>當前進度</h2>
+    <ul class="meta">
+      <li>✅ Common Route 完整(5 場景,~3 分鐘)</li>
+      <li>✅ 高松燈線開場 5 場景(翌日 + 影子 + 春日影變奏)</li>
+      <li>⏳ 主唱線結尾(Scene 2.3-2.8) — 下一個 PR</li>
+      <li>⏳ 8 首歌嵌入(目前 4 首) — 下一個 PR</li>
+      <li>⏳ 通關畫面 + 歌單頁面</li>
+    </ul>
+
+    <h2>倉庫</h2>
+    <p>源碼:<a href="https://github.com/yip-lgtm/ki7409-game-jam-202608">github.com/yip-lgtm/ki7409-game-jam-202608</a></p>
+
+    <a href="src/index.html" class="start-btn">▶ 開始遊戲</a>
+  </div>
+</body>
+</html>
