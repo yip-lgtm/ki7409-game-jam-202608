@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My HTML5 Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-root">
+    <header>
+      <h1>My HTML5 Game</h1>
+      <p class="subtitle">A vanilla JS scaffold — replace this with your game.</p>
+    </header>
+
+    <main>
+      <canvas id="game-canvas" width="800" height="600" aria-label="Game canvas"></canvas>
+
+      <section id="hud" aria-live="polite">
+        <span class="hud-item">Score: <strong id="score">0</strong></span>
+        <span class="hud-item">FPS: <strong id="fps">--</strong></span>
+      </section>
+    </main>
+
+    <footer>
+      <p>Controls: ← → to move, Space to act. Click canvas to focus.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
