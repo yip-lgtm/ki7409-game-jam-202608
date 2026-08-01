@@ -1,0 +1,51 @@
+# ====================================================================
+# GitHub Pages — 自動 deploy src/ 子目錄
+#
+# 觸發: push 到 main 分支
+# 來源: src/ 目錄
+# 目標: GitHub Pages (gh-pages branch)
+#
+# 使用方式:
+#   1. 在 repo Settings → Pages:
+#      Source = "GitHub Actions"  (不是 "Deploy from a branch")
+#   2. Push 到 main, workflow 自動跑
+#   3. 完成後訪問: https://<username>.github.io/<repo>/
+# ====================================================================
+
+name: Deploy src/ to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact (only src/)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./src
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
