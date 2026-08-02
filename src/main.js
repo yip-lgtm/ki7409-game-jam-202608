@@ -75,15 +75,25 @@ function init() {
 }
 
 function applyLangToUI() {
-  $('btn-start').textContent = t('start');
-  $('btn-lang').textContent  = t('lang');
-  $('btn-credits').textContent = t('credits');
-  document.querySelector('.title-main').textContent = t('titleMain');
-  document.querySelector('.title-sub').textContent  = t('titleSub');
-  document.querySelector('.title-tagline').textContent = t('titleTagline');
-  document.querySelector('.title-disclaimer').textContent = t('disclaimer');
+  // 防御性:所有 DOM 访问加 null check,避免 init 时抛错
+  const setText = (sel, val) => {
+    const el = document.querySelector(sel);
+    if (el) el.textContent = val;
+  };
+  const setTextById = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
 
-  langToggle.textContent = LANGS[getLang()].short;
+  setTextById('btn-start', t('start'));
+  setTextById('btn-lang', t('lang'));
+  setTextById('btn-credits', t('credits'));
+  setText('.title-main', t('titleMain'));
+  setText('.title-sub', t('titleSub'));
+  setText('.title-tagline', t('titleTagline'));
+  setText('.title-disclaimer', t('disclaimer'));
+
+  if (langToggle) langToggle.textContent = LANGS[getLang()].short;
 
   const creditsContent = document.querySelector('.credits-content');
   if (creditsContent) {
@@ -94,7 +104,7 @@ function applyLangToUI() {
     if (ps[1]) ps[1].innerHTML = `${t('creditsAuthor')}<br>${t('creditsAI')}<br>${t('creditsIP')}<br>${t('creditsMeme')}`;
     if (ps[2]) ps[2].textContent = t('creditsLicense');
     if (ps[3]) ps[3].textContent = t('creditsThanks');
-    $('btn-back').textContent = t('back');
+    setTextById('btn-back', t('back'));
   }
 
   if (currentSceneId !== 'title' && SCENES[currentSceneId]) {
