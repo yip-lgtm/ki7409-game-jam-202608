@@ -471,6 +471,303 @@ export const SCENES = {
       { speaker: '', t: '(你不知道這三個字是怎麼浮現的。)', cls: 'narrative' },
       { speaker: '', t: '(但你記住了:你會唱「迷星叫」。)', cls: 'narrative' },
     ],
+    next: 'tomorin_route_2_3_intro',
+  },
+
+  // ============ Scene 2.3: 玩家去找長崎爽世 ============
+
+  'tomorin_route_2_3_intro': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    fx: { bg: 'street' },
+    text: [
+      { speaker: '', t: '(你站著。)', cls: 'narrative' },
+      { speaker: '', t: '(你不知道「長崎爽世」是誰。)', cls: 'narrative' },
+      { speaker: '', t: '(但你記住了剛才屋頂的感覺——有人對你最溫柔。)', cls: 'narrative' },
+      { speaker: '你', t: '(歪頭)……那個, 溫柔的人。' },
+      { speaker: '', t: '(你決定去找她。)', cls: 'narrative' },
+    ],
+    next: 'tomorin_route_2_3_walk',
+  },
+
+  'tomorin_route_2_3_walk': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    fx: { bg: 'street' },
+    text: [
+      { speaker: '', t: '(你走下樓梯。)', cls: 'narrative' },
+      { speaker: '', t: '(你經過後巷。)', cls: 'narrative' },
+      { speaker: '', t: '(你經過車站。)', cls: 'narrative' },
+      { speaker: '', t: '(你經過一條你沒走過的路。)', cls: 'narrative' },
+      { speaker: '', t: '(你不知道為什麼。)', cls: 'narrative' },
+      { speaker: '你', t: '(歪頭)……咕。', cls: 'song' },
+      { speaker: '', t: '(你不知道你剛才「咕」了一下。)', cls: 'narrative' },
+      { speaker: '', t: '(但你覺得路對了。)', cls: 'narrative' },
+    ],
+    next: 'tomorin_route_2_3_arrive',
+  },
+
+  'tomorin_route_2_3_arrive': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    fx: { bg: 'house' },
+    text: [
+      { speaker: '', t: '(你站在一棟房子前。)', cls: 'narrative' },
+      { speaker: '', t: '(門上有名牌——「長崎」。)', cls: 'narrative' },
+      { speaker: '', t: '(你不知道這就是「長崎爽世」的家。)', cls: 'narrative' },
+      { speaker: '', t: '(你只知道——那個溫柔的人在這裡。)', cls: 'narrative' },
+      { speaker: '你', t: '(舉手, 敲門)' },
+    ],
+    next: 'tomorin_route_2_3_sayo_open',
+  },
+
+  'tomorin_route_2_3_sayo_open': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    fx: { bg: 'house' },
+    text: [
+      { speaker: '長崎爽世', t: '(開門)……高松燈?' },
+      { speaker: '長崎爽世', t: '(愣住)你——你怎麼找到這裡?' },
+      { speaker: '', t: '(你看著她。)', cls: 'narrative' },
+      { speaker: '你', t: '(歪頭)……?' },
+      { speaker: '', t: '(你不理解「怎麼找到」。)', cls: 'narrative' },
+      { speaker: '長崎爽世', t: '(沉默)……進來吧。' },
+    ],
+    next: 'tomorin_route_2_3_inside',
+  },
+
+  'tomorin_route_2_3_inside': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    fx: { bg: 'house' },
+    text: [
+      { speaker: '', t: '(屋內:吉他很多, 牆上貼著「CRYCHIC」海報。)', cls: 'narrative' },
+      { speaker: '', t: '(你看著那個海報。)', cls: 'narrative' },
+      { speaker: '你', t: '(歪頭)CRY……CHIC?' },
+      { speaker: '', t: '(你不理解這三個字。)', cls: 'narrative' },
+      { speaker: '', t: '(但你的心跳了一下。)', cls: 'narrative' },
+      { speaker: '長崎爽世', t: '(在你身後)那是……我們以前的名字。' },
+      { speaker: '長崎爽世', t: '現在已經沒了。' },
+    ],
+    next: 'tomorin_route_2_3_question',
+  },
+
+  'tomorin_route_2_3_question': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    fx: { bg: 'house' },
+    text: [
+      { speaker: '長崎爽世', t: '高松燈——你還記得嗎?' },
+      { speaker: '長崎爽世', t: '你願意——再當一次主唱嗎?' },
+      { speaker: '你', t: '(歪頭)主唱?' },
+      { speaker: '', t: '(這個詞, 你記得。)', cls: 'narrative' },
+      { speaker: '', t: '(屋頂上有人問過。)', cls: 'narrative' },
+    ],
+    choices: [
+      { label: '(點頭)……嗯。', next: 'tomorin_route_2_4_lesson', hint: '願意當主唱' },
+      { label: '(搖頭)……不。', next: 'tomorin_route_2_3_refuse', hint: '不願意' },
+    ],
+  },
+
+  'tomorin_route_2_3_refuse': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    fx: { bg: 'house' },
+    text: [
+      { speaker: '你', t: '……不。' },
+      { speaker: '長崎爽世', t: '(長沉默)……好。' },
+      { speaker: '長崎爽世', t: '那——你為什麼來找我?' },
+      { speaker: '你', t: '(歪頭)……不知道。' },
+      { speaker: '', t: '(你不理解自己為什麼來。)', cls: 'narrative' },
+      { speaker: '長崎爽世', t: '(笑)……高松燈。一直都是這樣。' },
+    ],
+    next: 'tomorin_route_2_4_lesson',
+  },
+
+  // ============ Scene 2.4: 玩家在爽世房間, 唱了一首歌 ============
+
+  'tomorin_route_2_4_lesson': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    fx: { bg: 'house' },
+    text: [
+      { speaker: '長崎爽世', t: '那——我教你一件事。' },
+      { speaker: '長崎爽世', t: '主唱不是「願意」就能當的。' },
+      { speaker: '長崎爽世', t: '主唱是——你必須唱出你想說的話。' },
+      { speaker: '你', t: '(歪頭)想……說的話?' },
+      { speaker: '長崎爽世', t: '嗯。哪怕只有一個字。' },
+      { speaker: '長崎爽世', t: '哪怕是「咕」。' },
+    ],
+    next: 'tomorin_route_2_4_first_sing',
+  },
+
+  'tomorin_route_2_4_first_sing': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    portrait: 'sing',
+    fx: { colorize: true },
+    text: [
+      { speaker: '', t: '(你張嘴。)', cls: 'narrative' },
+      { speaker: '', t: '(你想說什麼?)', cls: 'narrative' },
+      { speaker: '你', t: '……' },
+      { speaker: '', t: '(你不知道你想說什麼。)', cls: 'narrative' },
+      { speaker: '', t: '(你只知道——有人在聽。)', cls: 'narrative' },
+      { speaker: '你', t: '(張嘴)……', cls: 'song' },
+    ],
+    reveal: 'revealHoshiNoYumeFull',
+    next: 'tomorin_route_2_4_react',
+  },
+
+  'tomorin_route_2_4_react': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    portrait: 'sing',
+    text: [
+      { speaker: '長崎爽世', t: '(愣住)你——你怎麼會唱這首?' },
+      { speaker: '', t: '(你唱完。)', cls: 'narrative' },
+      { speaker: '你', t: '(歪頭)……這首?' },
+      { speaker: '', t: '(你不知道她說的「這首」是什麼。)', cls: 'narrative' },
+      { speaker: '長崎爽世', t: '(流淚)你——你不記得了嗎?' },
+      { speaker: '長崎爽世', t: '這是——我們一起唱過的。' },
+    ],
+    next: 'tomorin_route_2_4_sayo_cry',
+  },
+
+  'tomorin_route_2_4_sayo_cry': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    text: [
+      { speaker: '', t: '(你看著她哭。)', cls: 'narrative' },
+      { speaker: '', t: '(你不知道自己做了什麼讓她哭。)', cls: 'narrative' },
+      { speaker: '你', t: '(歪頭)……為什麼?' },
+      { speaker: '長崎爽世', t: '(哭)因為——你唱得比「那時候」還好。' },
+      { speaker: '長崎爽世', t: '(搖頭)不——一樣好。' },
+      { speaker: '長崎爽世', t: '一樣好。' },
+      { speaker: '長崎爽世', t: '(抱著你——)', cls: 'narrative' },
+      { speaker: '', t: '(你被抱了。)', cls: 'narrative' },
+      { speaker: '你', t: '……' },
+      { speaker: '', t: '(你沒有推開。)', cls: 'narrative' },
+    ],
+    next: 'tomorin_route_2_4_release',
+  },
+
+  'tomorin_route_2_4_release': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    text: [
+      { speaker: '長崎爽世', t: '(鬆開)……對不起。' },
+      { speaker: '長崎爽世', t: '(擦眼淚)我——我不應該。' },
+      { speaker: '長崎爽世', t: '高松燈——你記得春日影嗎?' },
+      { speaker: '你', t: '(歪頭)春日……影?' },
+      { speaker: '長崎爽世', t: '(長沉默)……那首歌, 你以前唱過。' },
+      { speaker: '長崎爽世', t: '(看著你)如果——你願意的話——' },
+      { speaker: '長崎爽世', t: '能——再唱一次嗎?' },
+    ],
+    choices: [
+      { label: '(張嘴)……', next: 'tomorin_route_2_5_sing', hint: '唱春日影' },
+      { label: '(搖頭)……不了。', next: 'tomorin_route_2_5_refuse' },
+    ],
+  },
+
+  // ============ Scene 2.5: 春日影變奏(情感高峰) ============
+
+  'tomorin_route_2_5_sing': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    portrait: 'sing',
+    fx: { colorize: true },
+    text: [
+      { speaker: '', t: '(你張嘴。)', cls: 'narrative' },
+      { speaker: '你', t: '【春日影——】', cls: 'song' },
+      { speaker: '你', t: '【迷失也無妨。】', cls: 'song' },
+      { speaker: '你', t: '【迷失著, 也要前進——】', cls: 'song' },
+    ],
+    reveal: 'revealHarunohiageFinal',
+    next: 'tomorin_route_2_5_sayo_cry',
+  },
+
+  'tomorin_route_2_5_sayo_cry': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    text: [
+      { speaker: '長崎爽世', t: '(流淚)你——' },
+      { speaker: '長崎爽世', t: '(哭)你記得——' },
+      { speaker: '長崎爽世', t: '(搖頭)不——你不記得。' },
+      { speaker: '長崎爽世', t: '但你——你還是唱得出來。' },
+      { speaker: '長崎爽世', t: '(抱著吉他)……高松燈。' },
+      { speaker: '長崎爽世', t: '(抬頭)你——' },
+      { speaker: '長崎爽世', t: '(看著你)你願意——再當一次主唱嗎?' },
+    ],
+    next: 'tomorin_route_2_5_decision',
+  },
+
+  'tomorin_route_2_5_decision': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    text: [
+      { speaker: '長崎爽世', t: '不是 CRYCHIC。' },
+      { speaker: '長崎爽世', t: '是——新的樂隊。' },
+      { speaker: '長崎爽世', t: '(看著你)我——我會寫歌。' },
+      { speaker: '長崎爽世', t: '(笑)你唱。我寫。' },
+      { speaker: '長崎爽世', t: '像——以前一樣。' },
+    ],
+    choices: [
+      { label: '(點頭)……嗯。', next: 'tomorin_route_2_5_yes', hint: '加入新的樂隊' },
+      { label: '(沉默)……', next: 'tomorin_route_2_5_silent', hint: '不回答' },
+    ],
+  },
+
+  'tomorin_route_2_5_yes': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    portrait: 'neutral',
+    text: [
+      { speaker: '你', t: '……嗯。' },
+      { speaker: '長崎爽世', t: '(笑, 流淚)——謝謝。' },
+      { speaker: '長崎爽世', t: '(擦眼淚)我——我會寫的。' },
+      { speaker: '長崎爽世', t: '(看著你)你——你等著。' },
+      { speaker: '長崎爽世', t: '等我寫好。' },
+      { speaker: '', t: '(你站在她家。)', cls: 'narrative' },
+      { speaker: '', t: '(你不知道自己答應了什麼。)', cls: 'narrative' },
+      { speaker: '', t: '(但你——)', cls: 'narrative' },
+      { speaker: '', t: '(——不後悔。)', cls: 'narrative' },
+    ],
+    next: 'ending_placeholder',
+  },
+
+  'tomorin_route_2_5_silent': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    portrait: 'sad',
+    text: [
+      { speaker: '長崎爽世', t: '……沒關係。' },
+      { speaker: '長崎爽世', t: '(擦眼淚)你——你不用現在答。' },
+      { speaker: '長崎爽世', t: '你——你想走的話。' },
+      { speaker: '長崎爽世', t: '隨時都可以。' },
+      { speaker: '', t: '(你沉默了。)', cls: 'narrative' },
+      { speaker: '', t: '(你不知道自己為什麼沉默。)', cls: 'narrative' },
+      { speaker: '', t: '(是因為——你不想走?還是——你不能走?)', cls: 'narrative' },
+      { speaker: '長崎爽世', t: '(看你很久)……你的影子。' },
+      { speaker: '長崎爽世', t: '(長沉默)……像企鵝。' },
+      { speaker: '長崎爽世', t: '我一直——都知道。' },
+    ],
+    next: 'ending_placeholder',
+  },
+
+  'tomorin_route_2_5_refuse': {
+    titleKey: 'sceneTitle11',
+    povKey: 'povPlayer',
+    portrait: 'sad',
+    text: [
+      { speaker: '你', t: '……不了。' },
+      { speaker: '長崎爽世', t: '……好。' },
+      { speaker: '長崎爽世', t: '(長沉默)高松燈——' },
+      { speaker: '長崎爽世', t: '不管你是——什麼。' },
+      { speaker: '長崎爽世', t: '你——' },
+      { speaker: '長崎爽世', t: '(笑)還是那個——唱歌最好的人。' },
+      { speaker: '長崎爽世', t: '(擦眼淚)去吧。' },
+      { speaker: '長崎爽世', t: '你——你想去哪裡就去。' },
+    ],
     next: 'ending_placeholder',
   },
 
@@ -522,5 +819,13 @@ export const REVEALS = {
   revealHoshiNoYume: {
     title: '你剛才唱的是:《迷星叫》',
     body: 'MyGO!!!!! 的第二張單曲。長崎爽世 應該會驚訝你會這首。',
+  },
+  revealHoshiNoYumeFull: {
+    title: '你剛才唱的是:《迷星叫》(完整版)',
+    body: 'MyGO!!!!! 的第二張單曲, 完整版本。長崎爽世 以為只有她會這首 —— 但你唱出來了。',
+  },
+  revealHarunohiageFinal: {
+    title: '你剛才唱的是:《春日影》(完整變奏)',
+    body: 'CRYCHIC 解散前的最後一首歌, 完整變奏版。長崎爽世 聽了會哭 —— 因為她以為只有「那時候」的高松燈會唱。',
   },
 };
