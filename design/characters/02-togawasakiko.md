@@ -1,6 +1,21 @@
-# 角色:豐川祥子(Amoris 創建者 / 前 CRYCHIC 鍵盤手)
+# 角色:豐川祥子(Amoris 創建者 / 前 CRYCHIC 鍵盤手 / Ave Mujica)
 
-## 概念
+> 資料參考:萌娘百科 (zh.moegirl.org.cn) · CC BY-NC-SA 3.0
+> 詳見 [ATTRIBUTION.md](./ATTRIBUTION.md)
+
+## 基礎資料
+
+- **姓名**:豐川 祥子(とよかわ さきこ / Toyokawa Sakiko)
+- **Ave Mujica 代號**:Oblivionis(オブリビオニス,取自 Lacus Oblivionis 忘湖)
+- **擔當**:鍵盤手
+- **生日**:2 月 14 日(水瓶座)
+- **代表色**:#7799CC(原作的「祥」紫藍)
+- **CV**:高尾奏音
+- **學校**:羽丘女子學園
+- **隸屬**:CRYCHIC(已解散) → Ave Mujica
+- **家庭**:豐川集團的大小姐,言談舉止優雅
+
+## 概念(原創同人視角)
 
 傲氣。但傲氣下面是「我必須做對的事」的恐懼。
 家庭變故不是她能選擇的 —— 但她把家庭變故的怒氣發在樂隊上, 這是她能選擇的, 也是她最錯的選擇。
