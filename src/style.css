@@ -64,6 +64,8 @@ html, body {
    ==================================================================== */
 
 #title-screen {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -200,6 +202,8 @@ html, body {
    ==================================================================== */
 
 #game-screen {
+  display: flex;
+  flex-direction: column;
   background: var(--bg);
   position: relative;
 }
@@ -532,6 +536,8 @@ html, body {
    ==================================================================== */
 
 #credits-screen {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: var(--bg);
