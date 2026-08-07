@@ -12,6 +12,8 @@ export const LANGS = {
     ui: {
       // title screen
       start: '開始',
+      continue: '繼續',
+      loadTitle: '讀檔',
       lang: '語言:繁體中文',
       credits: '關於',
       titleMain: '迷茫即是前進',
@@ -27,6 +29,22 @@ export const LANGS = {
       next: '下一步',
       revealTitle: 'UI 揭示',
       skipReveal: '跳過',
+
+      // menu / save
+      menu: '選單',
+      save: '存檔',
+      load: '讀檔',
+      backToTitle: '返回標題',
+      resume: '繼續遊戲',
+      emptySlot: '— 空 —',
+      slotLabel: '存檔格',
+      saveSuccess: '存檔成功',
+      loadSuccess: '讀檔成功',
+      deleteSlot: '刪除',
+      confirmTitle: '確定返回標題？未存進度會消失。',
+      noSave: '沒有存檔',
+      saveTime: '時間',
+      saveScene: '場景',
 
       // credits
       creditsTitle: '關於本作',
@@ -54,6 +72,8 @@ export const LANGS = {
     ui: {
       // title screen
       start: '开始',
+      continue: '继续',
+      loadTitle: '读档',
       lang: '语言:简体中文',
       credits: '关于',
       titleMain: '迷茫即是前进',
@@ -69,6 +89,22 @@ export const LANGS = {
       next: '下一步',
       revealTitle: 'UI 揭示',
       skipReveal: '跳过',
+
+      // menu / save
+      menu: '菜单',
+      save: '存档',
+      load: '读档',
+      backToTitle: '返回标题',
+      resume: '继续游戏',
+      emptySlot: '— 空 —',
+      slotLabel: '存档格',
+      saveSuccess: '存档成功',
+      loadSuccess: '读档成功',
+      deleteSlot: '删除',
+      confirmTitle: '确定返回标题？未存进度会消失。',
+      noSave: '没有存档',
+      saveTime: '时间',
+      saveScene: '场景',
 
       // credits
       creditsTitle: '关于本作',
