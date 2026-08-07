@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="bg-rooftop">
+  <!-- ==================== Transition Overlay ==================== -->
+  <div id="transition-overlay" class="transition-overlay"></div>
+
   <!-- ==================== Title Screen ==================== -->
   <div id="title-screen" class="screen active">
     <div class="title-bg"></div>
@@ -23,6 +26,8 @@
 
       <div class="title-buttons">
         <button id="btn-start" class="btn-primary">開始</button>
+        <button id="btn-continue" class="btn-primary hidden">繼續</button>
+        <button id="btn-load-title" class="btn-secondary">讀檔</button>
         <button id="btn-lang"  class="btn-secondary">語言:繁體中文</button>
         <button id="btn-credits" class="btn-secondary">關於</button>
       </div>
@@ -59,7 +64,10 @@
 
     <div id="hud" class="hud">
       <span id="scene-title" class="scene-title"></span>
-      <span id="lang-toggle" class="lang-toggle" title="切換語言">繁</span>
+      <div class="hud-right">
+        <span id="btn-menu" class="hud-btn" title="選單 (ESC)">☰</span>
+        <span id="lang-toggle" class="lang-toggle" title="切換語言">繁</span>
+      </div>
     </div>
   </div>
 
@@ -81,6 +89,31 @@
       <button id="btn-back" class="btn-secondary">返回</button>
     </div>
   </div>
+
+  <!-- ==================== In-game Menu ==================== -->
+  <div id="menu-overlay" class="menu-overlay hidden">
+    <div class="menu-panel">
+      <h2 class="menu-title" id="menu-title">選單</h2>
+      <div class="menu-buttons">
+        <button id="menu-save" class="btn-primary">存檔</button>
+        <button id="menu-load" class="btn-secondary">讀檔</button>
+        <button id="menu-title-btn" class="btn-secondary">返回標題</button>
+        <button id="menu-close" class="btn-secondary">繼續遊戲</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Save / Load Modal ==================== -->
+  <div id="saveload-overlay" class="menu-overlay hidden">
+    <div class="menu-panel saveload-panel">
+      <h2 class="menu-title" id="saveload-title">存檔</h2>
+      <div id="slot-list" class="slot-list"></div>
+      <button id="saveload-back" class="btn-secondary">返回</button>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast hidden"></div>
 
   <script type="module" src="main.js"></script>
 </body>
