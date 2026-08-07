@@ -1,1 +1,60 @@
-/* PLACEHOLDER_STYLE */
+/* Minimal emergency CSS - full version to follow */
+:root {
+  --bg: #0a0b14; --bg-soft: #14162a; --fg: #e8e9f0; --fg-muted: #8889a0;
+  --accent: #6cc6ff; --textbox-border: #2a2e4a; --glass: rgba(20,22,42,0.72);
+  --glass-border: rgba(108,198,255,0.18); --transition-ms: 420ms;
+  --serif: "Noto Serif TC", serif; --sans: system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; background: var(--bg); color: var(--fg); font-family: var(--sans); overflow: hidden; user-select: none; }
+.bg-rooftop { background: linear-gradient(180deg, #0a0b14 0%, #1a1c3a 50%, #2a2e4a 100%); }
+.bg-street { background: linear-gradient(180deg, #0a0b14 0%, #14162a 60%, #1a1c3a 100%); }
+.bg-house { background: linear-gradient(180deg, #0a0b14 0%, #1a1a2e 50%, #2a1a2e 100%); }
+.transition-overlay { position: fixed; inset: 0; background: #0a0b14; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity var(--transition-ms) ease; }
+.transition-overlay.active { opacity: 1; pointer-events: auto; }
+.screen { position: fixed; inset: 0; display: none; flex-direction: column; opacity: 0; transition: opacity var(--transition-ms) ease; }
+.screen.active { display: flex; opacity: 1; }
+.hidden { display: none !important; }
+#title-screen { align-items: center; justify-content: center; text-align: center; background: radial-gradient(ellipse at center, #1a1c3a 0%, #0a0b14 70%); }
+.title-main { font-family: var(--serif); font-size: 3rem; letter-spacing: 0.15em; color: var(--fg); margin-bottom: 0.5rem; }
+.title-sub { font-family: var(--serif); font-size: 1.4rem; color: var(--accent); margin-bottom: 1.5rem; }
+.title-buttons { display: flex; flex-direction: column; gap: 0.8rem; align-items: center; margin: 2rem 0; }
+.btn-primary, .btn-secondary { font-family: var(--serif); font-size: 1rem; padding: 0.7rem 2.5rem; border: 1px solid var(--textbox-border); background: rgba(20,22,42,0.6); color: var(--fg); cursor: pointer; min-width: 200px; }
+.btn-primary { border-color: var(--accent); color: var(--accent); }
+#game-screen { background: var(--bg); position: relative; }
+.fx-layer { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+.fx-layer.grayscale { background: rgba(0,0,0,0.4); opacity: 1; }
+.fx-layer.colorize { background: linear-gradient(180deg, rgba(255,220,100,0.08), rgba(108,198,255,0.08)); opacity: 1; }
+.portrait-layer { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 30%; pointer-events: none; }
+.penguin { width: 240px; height: 320px; }
+.text-box { position: absolute; bottom: 0; left: 0; right: 0; background: var(--glass); border-top: 1px solid var(--glass-border); padding: 1.2rem 2rem 1rem; min-height: 180px; z-index: 10; cursor: pointer; }
+.speaker-name { font-family: var(--serif); font-size: 1.1rem; color: var(--accent); }
+.text-content { font-family: var(--serif); font-size: 1.05rem; line-height: 1.9; min-height: 4.5em; }
+.text-content .narrative { color: var(--fg-muted); font-style: italic; }
+.text-content .song { color: var(--accent); }
+.choice-layer { position: absolute; inset: 0; background: rgba(10,11,20,0.82); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.85rem; z-index: 20; }
+.choice-btn { font-family: var(--serif); font-size: 1rem; padding: 0.85rem 1.5rem; border: 1px solid var(--textbox-border); background: rgba(20,22,42,0.75); color: var(--fg); cursor: pointer; min-width: 320px; }
+.reveal-layer { position: absolute; inset: 0; background: rgba(10,11,20,0.9); display: flex; align-items: center; justify-content: center; z-index: 30; }
+.reveal-card { background: rgba(20,22,42,0.95); border: 1px solid var(--accent); border-radius: 10px; padding: 2rem; max-width: 480px; text-align: center; }
+.hud { position: absolute; top: 1rem; left: 1rem; right: 1rem; display: flex; justify-content: space-between; z-index: 5; }
+.hud-right { display: flex; gap: 0.5rem; }
+.hud-btn, .lang-toggle { font-family: var(--serif); color: var(--accent); background: rgba(10,11,20,0.6); padding: 0.4rem 0.8rem; cursor: pointer; border: 1px solid var(--textbox-border); border-radius: 3px; }
+.menu-overlay { position: fixed; inset: 0; background: rgba(6,7,14,0.78); display: flex; align-items: center; justify-content: center; z-index: 100; }
+.menu-panel { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 12px; padding: 2rem; min-width: 280px; text-align: center; }
+.menu-title { font-family: var(--serif); font-size: 1.4rem; color: var(--accent); margin-bottom: 1.5rem; }
+.menu-buttons { display: flex; flex-direction: column; gap: 0.7rem; align-items: center; }
+.slot-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.2rem; }
+.slot-card { padding: 0.9rem 1.1rem; border: 1px solid var(--textbox-border); background: rgba(14,16,30,0.7); color: var(--fg); cursor: pointer; text-align: left; border-radius: 6px; font-family: var(--serif); }
+.slot-card.empty { color: var(--fg-muted); font-style: italic; }
+.toast { position: fixed; bottom: 2.5rem; left: 50%; transform: translateX(-50%); background: rgba(20,22,42,0.95); border: 1px solid var(--accent); color: var(--accent); font-family: var(--serif); padding: 0.7rem 1.6rem; border-radius: 6px; z-index: 200; opacity: 0; transition: opacity 0.3s; }
+.toast.show { opacity: 1; }
+#credits-screen { align-items: center; justify-content: center; background: var(--bg); overflow-y: auto; }
+.credits-content { max-width: 600px; padding: 3rem 2rem; text-align: center; line-height: 1.8; }
+.credits-content h2 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-bottom: 1.5rem; }
+.title-content { position: relative; z-index: 2; padding: 2rem; margin-top: 220px; }
+.title-penguin { position: absolute; top: 6%; left: 50%; transform: translateX(-50%); width: 180px; height: 250px; cursor: pointer; }
+.title-bg { position: absolute; inset: 0; opacity: 0.4; }
+.title-tagline, .title-disclaimer { color: var(--fg-muted); font-size: 0.9rem; }
+.scene-title { font-family: var(--serif); font-size: 0.9rem; color: var(--fg-muted); background: rgba(10,11,20,0.6); padding: 0.4rem 0.8rem; border-radius: 3px; }
+.hint { opacity: 0.6; font-size: 0.75rem; }
+.pov-indicator { font-size: 0.8rem; color: var(--fg-muted); }
