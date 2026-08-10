@@ -49,8 +49,11 @@ let songsSung = new Set();  // 玩家唱過的歌(用於通關畫面)
 // ====================================================================
 
 function init() {
+  console.log('[VN] init() start');
   restoreLang();
+  console.log('[VN] restoreLang ok');
   applyLangToUI();
+  console.log('[VN] applyLangToUI ok');
 
   $('btn-start').addEventListener('click', startGame);
   $('btn-lang').addEventListener('click', onTitleLangClick);
@@ -72,6 +75,7 @@ function init() {
       titlePenguin.innerHTML = getPenguinSVG(expressions[exprIdx]);
     });
   }
+  console.log('[VN] init() done');
 }
 
 function applyLangToUI() {
@@ -131,10 +135,17 @@ function showCredits() {
 }
 
 function startGame() {
-  showScreen(gameScreen);
-  currentSceneId = 'title';
-  songsSung = new Set();
-  loadScene(currentSceneId);
+  console.log('[VN] startGame() called');
+  try {
+    showScreen(gameScreen);
+    currentSceneId = 'title';
+    songsSung = new Set();
+    loadScene(currentSceneId);
+    console.log('[VN] startGame() done, scene:', currentSceneId);
+  } catch (e) {
+    console.error('[VN] startGame() threw:', e.message);
+    console.error(e.stack);
+  }
 }
 
 function resetGame() {
@@ -154,6 +165,7 @@ function resetGame() {
 // ====================================================================
 
 function loadScene(sceneId) {
+  console.log('[VN] loadScene:', sceneId);
   if (sceneId === '__TITLE__') {
     showTitle();
     return;
