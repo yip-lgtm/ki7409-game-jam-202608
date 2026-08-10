@@ -178,12 +178,14 @@ function loadScene(sceneId) {
   }
 
   if (scene.auto && scene.next && !scene.text) {
+    console.log('[VN] auto -> next:', scene.next);
     loadScene(scene.next);
     return;
   }
 
   currentSceneId = sceneId;
   currentTextIdx = 0;
+  console.log('[VN] loaded scene:', sceneId, 'with', scene.text?.length, 'lines');
 
   applyFx(scene.fx || {});
   applyPortrait(scene);
