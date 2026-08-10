@@ -67,12 +67,12 @@ function init() {
   // 标题屏企鹅(可点击切换表情)
   const titlePenguin = $('title-penguin-svg');
   if (titlePenguin) {
-    titlePenguin.innerHTML = getPenguinSVG('neutral');
+    titlePenguin.innerHTML = getPenguinPortrait('neutral');
     const expressions = ['neutral', 'shout', 'sad', 'sing', 'neutral'];
     let exprIdx = 0;
     titlePenguin.addEventListener('click', () => {
       exprIdx = (exprIdx + 1) % expressions.length;
-      titlePenguin.innerHTML = getPenguinSVG(expressions[exprIdx]);
+      titlePenguin.innerHTML = getPenguinPortrait(expressions[exprIdx]);
     });
   }
   console.log('[VN] init() done');
@@ -238,10 +238,10 @@ function applyPortrait(scene) {
     if (line && line.portrait) portraitKey = line.portrait;
   }
 
-  // 創建企鵝 SVG
+  // 創建企鵝立繭(圖片優先, SVG fallback)
   const penguin = document.createElement('div');
   penguin.className = `penguin penguin-${portraitKey}`;
-  penguin.innerHTML = getPenguinSVG(portraitKey);
+  penguin.innerHTML = getPenguinPortrait(portraitKey);
   portraitLayer.appendChild(penguin);
 }
 
@@ -301,6 +301,14 @@ function getPenguinSVG(expr) {
       <ellipse cx="122" cy="108" rx="4" ry="3" fill="#ffaaaa" opacity="0.5" />
     </svg>
   `;
+}
+
+// 圖片版立繭優先, fallback 到 SVG
+// 圖片由用戶自行 push, 作者承擔版權風險(方案 5)
+function getPenguinPortrait(expr) {
+  const img = `<img class="penguin-img" src="assets/portraits/tomorin.png" alt="高松燈(企鵝版) - ${expr}" data-expr="${expr}" onerror="this.style.display='none'; this.nextElementSibling&&(this.nextElementSibling.style.display='block');" />`;
+  const svg = `<div class="penguin-svg-fallback" style="display:none;">${getPenguinSVG(expr)}</div>`;
+  return img + svg;
 }
 
 // ====================================================================

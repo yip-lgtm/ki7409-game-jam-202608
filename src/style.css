@@ -38,6 +38,9 @@ html, body { width: 100%; height: 100%; background: var(--bg); color: var(--fg);
 .fx-layer.colorize { background: linear-gradient(180deg, rgba(255,220,100,0.08), rgba(108,198,255,0.08)); opacity: 1; }
 .portrait-layer { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 30%; pointer-events: none; }
 .penguin { width: 240px; height: 320px; }
+.penguin-img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.penguin-svg-fallback { width: 100%; height: 100%; }
+.penguin-svg-fallback svg { width: 100%; height: 100%; }
 .text-box { position: absolute; bottom: 0; left: 0; right: 0; background: var(--glass); border-top: 1px solid var(--glass-border); padding: 1.2rem 2rem 1rem; min-height: 180px; z-index: 10; cursor: pointer; }
 .speaker-name { font-family: var(--serif); font-size: 1.1rem; color: var(--accent); }
 .text-content { font-family: var(--serif); font-size: 1.05rem; line-height: 1.9; min-height: 4.5em; }
