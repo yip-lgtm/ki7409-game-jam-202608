@@ -339,6 +339,8 @@ function renderTextLine(idx) {
     speakerName.textContent = line.speaker;
   }
 
+  console.log('[VN] renderTextLine:', idx, 'speaker:', JSON.stringify(line.speaker), 'text:', line.t);
+
   // 玩家表情切換(每次文本行都更新)
   applyPortrait(scene);
 
@@ -359,7 +361,7 @@ function renderTextLine(idx) {
       typewriterTimer = null;
       isTyping = false;
     }
-  }, 30);
+  }, 0);
 }
 
 function skipTypewriter() {
