@@ -37,10 +37,25 @@ html, body { width: 100%; height: 100%; background: var(--bg); color: var(--fg);
 .fx-layer.grayscale { background: rgba(0,0,0,0.4); opacity: 1; }
 .fx-layer.colorize { background: linear-gradient(180deg, rgba(255,220,100,0.08), rgba(108,198,255,0.08)); opacity: 1; }
 .portrait-layer { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 30%; pointer-events: none; }
-.penguin { width: 240px; height: 320px; }
+.penguin { width: 240px; height: 320px; position: relative; }
 .penguin-img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .penguin-svg-fallback { width: 100%; height: 100%; }
 .penguin-svg-fallback svg { width: 100%; height: 100%; }
+.portrait-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(10,11,20,0.78);
+  color: #ffaaaa;
+  font-family: system-ui, sans-serif;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(255,170,170,0.4);
+  pointer-events: none;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
 .text-box { position: absolute; bottom: 0; left: 0; right: 0; background: var(--glass); border-top: 1px solid var(--glass-border); padding: 1.2rem 2rem 1rem; min-height: 180px; z-index: 10; cursor: pointer; }
 .speaker-name { font-family: var(--serif); font-size: 1.1rem; color: var(--accent); }
 .text-content { font-family: var(--serif); font-size: 1.05rem; line-height: 1.9; min-height: 4.5em; }

@@ -308,7 +308,8 @@ function getPenguinSVG(expr) {
 function getPenguinPortrait(expr) {
   const img = `<img class="penguin-img" src="assets/portraits/tomorin.png" alt="高松燈(企鵝版) - ${expr}" data-expr="${expr}" onerror="this.style.display='none'; this.nextElementSibling&&(this.nextElementSibling.style.display='block');" />`;
   const svg = `<div class="penguin-svg-fallback" style="display:none;">${getPenguinSVG(expr)}</div>`;
-  return img + svg;
+  const badge = `<div class="portrait-badge">FAN ART / 同人二創</div>`;
+  return img + svg + badge;
 }
 
 // ====================================================================
