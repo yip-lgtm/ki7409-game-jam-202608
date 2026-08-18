@@ -4,19 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>迷茫即是前進 — 高松燈(企鵝版)篇</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=20260818c" />
 </head>
 <body class="bg-rooftop">
-  <!-- ==================== Transition Overlay ==================== -->
   <div id="transition-overlay" class="transition-overlay"></div>
 
-  <!-- ==================== Title Screen ==================== -->
   <div id="title-screen" class="screen active">
     <div class="title-bg"></div>
 
-    <!-- 企鵝立繪(人頭 + 企鵝身)中央, 可點擊切換表情 -->
     <div class="title-penguin">
-      <div class="penguin penguin-neutral" id="title-penguin-svg"></div>
+      <div class="penguin penguin-neutral" id="title-penguin-svg">
+        <img
+          src="https://raw.githubusercontent.com/yip-lgtm/ki7409-game-jam-202608/main/design/characters/image.png"
+          alt="高松燈(企鵝版)"
+          class="penguin-img"
+          draggable="false"
+        />
+      </div>
     </div>
 
     <div class="title-content">
@@ -35,12 +39,11 @@
       <p class="title-disclaimer">
         本作品為粉絲同人二次創作,非商業用途,自娛為主。<br />
         原 IP:BanG Dream! It's MyGO!!!!! / Ave Mujica © Bushiroad<br />
-        角色用原作真名, 玩家 = 企鵝版高松燈(自創立繭, 純 SVG)
+        角色用原作真名, 玩家 = 企鵝版高松燈(自創立繪)
       </p>
     </div>
   </div>
 
-  <!-- ==================== Game Screen ==================== -->
   <div id="game-screen" class="screen">
     <div id="bg-layer" class="bg-layer"></div>
     <div id="fx-layer" class="fx-layer"></div>
@@ -58,8 +61,6 @@
     </div>
 
     <div id="choice-layer" class="choice-layer hidden"></div>
-
-    <!-- 歌名揭示層(0.5s 延遲顯示) -->
     <div id="reveal-layer" class="reveal-layer hidden"></div>
 
     <div id="hud" class="hud">
@@ -71,26 +72,20 @@
     </div>
   </div>
 
-  <!-- ==================== Credits Screen ==================== -->
   <div id="credits-screen" class="screen">
     <div class="credits-content">
       <h2>關於本作</h2>
-      <p>玩家 = 高松燈(企鵝版, 自創立繭)。你不知道自己是企鵝, 不知道自己會唱所有歌。90 分鐘, 1 路線, 1 結局。</p>
-
+      <p>玩家 = 高松燈(企鵝版, 自創立繪)。你不知道自己是企鵝, 不知道自己會唱所有歌。90 分鐘, 1 路線, 1 結局。</p>
       <h3>製作</h3>
-      <p>劇本 / 程式 / 企鵝立繭(純 CSS+SVG):<strong>yip-lgtm</strong><br>AI 協作:Claude Code (Mavis / 49 agents studio)<br>原 IP:BanG Dream! It's MyGO!!!!! / Ave Mujica © Bushiroad(同人, 自娛, 零收費)<br>企鵝版高松燈 = 自創同人設定</p>
-
+      <p>劇本 / 程式 / 立繪:<strong>yip-lgtm</strong><br>原 IP:BanG Dream! It's MyGO!!!!! / Ave Mujica © Bushiroad(同人, 自娛, 零收費)<br>企鵝版高松燈 = 自創同人設定</p>
       <h3>授權</h3>
       <p>CC BY-NC 4.0(同人非商用)</p>
-
       <h3>特別感謝</h3>
       <p>BanG Dream! 粉絲 · bilibili 二創圈</p>
-
       <button id="btn-back" class="btn-secondary">返回</button>
     </div>
   </div>
 
-  <!-- ==================== In-game Menu ==================== -->
   <div id="menu-overlay" class="menu-overlay hidden">
     <div class="menu-panel">
       <h2 class="menu-title" id="menu-title">選單</h2>
@@ -103,7 +98,6 @@
     </div>
   </div>
 
-  <!-- ==================== Save / Load Modal ==================== -->
   <div id="saveload-overlay" class="menu-overlay hidden">
     <div class="menu-panel saveload-panel">
       <h2 class="menu-title" id="saveload-title">存檔</h2>
@@ -112,9 +106,8 @@
     </div>
   </div>
 
-  <!-- Toast notification -->
   <div id="toast" class="toast hidden"></div>
 
-  <script type="module" src="main.js"></script>
+  <script type="module" src="main.js?v=20260818c"></script>
 </body>
 </html>
