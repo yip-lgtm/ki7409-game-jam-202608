@@ -18,17 +18,19 @@ html, body { width: 100%; height: 100%; background: var(--bg); color: var(--fg);
 .screen.active { display: flex; opacity: 1; }
 .hidden { display: none !important; }
 #title-screen { align-items: center; justify-content: center; text-align: center; background: radial-gradient(ellipse at center, #1a1c3a 0%, #0a0b14 70%); }
+#title-screen.active { display: flex; }
 .title-main { font-family: var(--serif); font-size: 3rem; letter-spacing: 0.15em; color: var(--fg); margin-bottom: 0.5rem; }
 .title-sub { font-family: var(--serif); font-size: 1.4rem; color: var(--accent); margin-bottom: 1.5rem; }
 .title-buttons { display: flex; flex-direction: column; gap: 0.8rem; align-items: center; margin: 2rem 0; }
 .btn-primary, .btn-secondary { font-family: var(--serif); font-size: 1rem; padding: 0.7rem 2.5rem; border: 1px solid var(--textbox-border); background: rgba(20,22,42,0.6); color: var(--fg); cursor: pointer; min-width: 200px; }
 .btn-primary { border-color: var(--accent); color: var(--accent); }
-#game-screen { display: flex; flex-direction: column; background: var(--bg); position: fixed; inset: 0; overflow: hidden; }
+#game-screen { flex-direction: column; background: var(--bg); position: fixed; inset: 0; overflow: hidden; }
+#game-screen.active { display: flex; }
 .fx-layer { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
 .fx-layer.grayscale { background: rgba(0,0,0,0.4); opacity: 1; }
 .fx-layer.colorize { background: linear-gradient(180deg, rgba(255,220,100,0.08), rgba(108,198,255,0.08)); opacity: 1; }
 .portrait-layer { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 30%; pointer-events: none; }
-.penguin { width: 280px; height: 320px; position: relative; }
+.penguin { width: 280px; height: 360px; position: relative; }
 .penguin-img { width: 100%; height: 100%; object-fit: contain; display: block; filter: drop-shadow(0 8px 18px rgba(0,0,0,0.45)); }
 .text-box { position: absolute; bottom: 0; left: 0; right: 0; background: var(--glass); border-top: 1px solid var(--glass-border); padding: 1.2rem 2rem 1rem; min-height: 180px; z-index: 10; cursor: pointer; }
 .speaker-name { font-family: var(--serif); font-size: 1.1rem; color: var(--accent); }
@@ -54,8 +56,8 @@ html, body { width: 100%; height: 100%; background: var(--bg); color: var(--fg);
 #credits-screen { align-items: center; justify-content: center; background: var(--bg); overflow-y: auto; }
 .credits-content { max-width: 600px; padding: 3rem 2rem; text-align: center; line-height: 1.8; }
 .credits-content h2 { font-family: var(--serif); font-size: 1.8rem; color: var(--accent); margin-bottom: 1.5rem; }
-.title-content { position: relative; z-index: 2; padding: 2rem; margin-top: 260px; }
-.title-penguin { position: absolute; top: 4%; left: 50%; transform: translateX(-50%); width: 240px; height: 280px; cursor: pointer; }
+.title-content { position: relative; z-index: 2; padding: 2rem; margin-top: 280px; }
+.title-penguin { position: absolute; top: 2%; left: 50%; transform: translateX(-50%); width: 260px; height: 300px; cursor: pointer; }
 .title-penguin .penguin { width: 100%; height: 100%; }
 .title-bg { position: absolute; inset: 0; opacity: 0.4; }
 .title-tagline, .title-disclaimer { color: var(--fg-muted); font-size: 0.9rem; }
