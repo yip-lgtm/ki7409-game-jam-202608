@@ -41,6 +41,7 @@ let saveloadMode = 'save';
 const SAVE_KEY = 'vn-saves-ki7409';
 const MAX_SLOTS = 3;
 const TRANSITION_MS = 420;
+const PORTRAIT_LOCAL = 'assets/portraits/tomori.png';
 const PORTRAIT_URL = 'https://raw.githubusercontent.com/yip-lgtm/ki7409-game-jam-202608/main/design/characters/image.png';
 
 function getPenguinSVG(expr) {
@@ -49,7 +50,7 @@ function getPenguinSVG(expr) {
 
 function getPenguinPortrait(expr) {
   const key = expr || 'neutral';
-  return `<img class="penguin-img" src="${PORTRAIT_URL}" alt="高松燈(企鵝版)" data-expr="${key}" draggable="false">`;
+  return `<img class="penguin-img" src="${PORTRAIT_LOCAL}" alt="高松燈(企鵝版)" data-expr="${key}" draggable="false" onerror="this.onerror=null;this.src='${PORTRAIT_URL}'">`;
 }
 
 function init() {
@@ -641,10 +642,10 @@ function onLangToggleClick() {
 
 function escapeHtml(s) {
   return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
+    .replace(/&/g, '&')
+    .replace(/</g, '<')
+    .replace(/>/g, '>')
+    .replace(/"/g, '"')
     .replace(/'/g, '&#039;');
 }
 
