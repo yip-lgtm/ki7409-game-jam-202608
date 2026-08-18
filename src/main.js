@@ -1,5 +1,18 @@
 // ====================================================================
 // main.js — 迷茫即是前進 — 高松燈(企鵝版)篇 — 核心引擎
+//
+// 負責:
+//   - 場景切換 + 轉場淡入淡出
+//   - 打字機文本渲染
+//   - 選項分叉
+//   - 企鵝立繪切換
+//   - 歌名揭示機制(延遲 0.5s)
+//   - FX 視覺效果(灰階 / 震動 / 彩色)
+//   - 標題 / 遊戲 / 製作人員 切換
+//   - 語言切換
+//   - 存檔 / 讀檔系統(3 格)
+//   - 遊戲內選單(ESC)
+//   - 玩家唱過的歌追蹤
 // ====================================================================
 
 import { SCENES, REVEALS } from './data/script.js';
@@ -41,16 +54,11 @@ let saveloadMode = 'save';
 const SAVE_KEY = 'vn-saves-ki7409';
 const MAX_SLOTS = 3;
 const TRANSITION_MS = 420;
-const PORTRAIT_LOCAL = 'assets/portraits/tomori.png';
-const PORTRAIT_URL = 'https://raw.githubusercontent.com/yip-lgtm/ki7409-game-jam-202608/main/design/characters/image.png';
-
-function getPenguinSVG(expr) {
-  return getPenguinPortrait(expr);
-}
+const PORTRAIT_URL = 'https://raw.githubusercontent.com/yip-lgtm/ki7409-game-jam-202608/main/design/characters/image.png?v=20260818h';
 
 function getPenguinPortrait(expr) {
   const key = expr || 'neutral';
-  return `<img class="penguin-img" src="${PORTRAIT_LOCAL}" alt="高松燈(企鵝版)" data-expr="${key}" draggable="false" onerror="this.onerror=null;this.src='${PORTRAIT_URL}'">`;
+  return `<img src="${PORTRAIT_URL}" alt="高松燈(企鵝版)" class="penguin-img" data-expr="${key}" draggable="false">`;
 }
 
 function init() {
@@ -78,17 +86,6 @@ function init() {
   $('menu-load').addEventListener('click', () => { closeMenu(); openSaveLoad('load'); });
   $('menu-title-btn').addEventListener('click', onBackToTitle);
   $('saveload-back').addEventListener('click', closeSaveLoad);
-
-  const titlePenguin = $('title-penguin-svg');
-  if (titlePenguin) {
-    titlePenguin.innerHTML = getPenguinPortrait('neutral');
-    const expressions = ['neutral', 'shout', 'sad', 'sing', 'neutral'];
-    let exprIdx = 0;
-    titlePenguin.addEventListener('click', () => {
-      exprIdx = (exprIdx + 1) % expressions.length;
-      titlePenguin.innerHTML = getPenguinPortrait(expressions[exprIdx]);
-    });
-  }
 }
 
 function applyLangToUI() {
@@ -250,12 +247,15 @@ function writeSaves(saves) {
 function buildSaveData() {
   const scene = SCENES[currentSceneId];
   let preview = currentSceneId;
-  if (scene && scene.titleKey) preview = t(scene.titleKey);
+  if (scene && scene.titleKey) {
+    preview = t(scene.titleKey);
+  }
   let lastLine = '';
   if (scene && scene.text && scene.text[currentTextIdx]) {
     lastLine = scene.text[currentTextIdx].t || '';
     if (lastLine.length > 40) lastLine = lastLine.slice(0, 40) + '…';
   }
+
   return {
     sceneId: currentSceneId,
     textIdx: currentTextIdx,
@@ -272,14 +272,21 @@ function applySaveData(data) {
   isTyping = false;
   choiceLayer.classList.add('hidden');
   revealLayer.classList.add('hidden');
+
   currentSceneId = data.sceneId || 'title';
   currentTextIdx = data.textIdx || 0;
   songsSung = new Set(data.songsSung || []);
+
   const scene = SCENES[currentSceneId];
-  if (!scene) { loadScene('title'); return; }
+  if (!scene) {
+    loadScene('title');
+    return;
+  }
+
   applyFx(scene.fx || {});
   applyPortrait(scene);
   refreshSceneHeader();
+
   if (scene.text && scene.text.length > 0) {
     const idx = Math.min(currentTextIdx, scene.text.length - 1);
     renderTextLine(idx);
@@ -301,19 +308,26 @@ function saveToSlot(slot) {
   writeSaves(saves);
   showToast(t('saveSuccess'));
   refreshContinueButton();
-  if (!saveloadOverlay.classList.contains('hidden')) renderSlotList();
+  if (!saveloadOverlay.classList.contains('hidden')) {
+    renderSlotList();
+  }
 }
 
 function loadFromSlot(slot) {
   const saves = getSaves();
   const data = saves[slot];
-  if (!data) { showToast(t('noSave')); return; }
+  if (!data) {
+    showToast(t('noSave'));
+    return;
+  }
   closeSaveLoad();
   closeMenu();
   withTransition(() => {
     showScreen(gameScreen);
     applySaveData(data);
-  }).then(() => showToast(t('loadSuccess')));
+  }).then(() => {
+    showToast(t('loadSuccess'));
+  });
 }
 
 function deleteSlot(slot) {
@@ -331,8 +345,11 @@ function hasAnySave() {
 function refreshContinueButton() {
   const btn = $('btn-continue');
   if (!btn) return;
-  if (hasAnySave()) btn.classList.remove('hidden');
-  else btn.classList.add('hidden');
+  if (hasAnySave()) {
+    btn.classList.remove('hidden');
+  } else {
+    btn.classList.add('hidden');
+  }
 }
 
 function formatTime(ts) {
@@ -371,44 +388,67 @@ function closeSaveLoad() {
 function renderSlotList(fromTitle = false) {
   const saves = getSaves();
   slotList.innerHTML = '';
+
   for (let i = 0; i < MAX_SLOTS; i++) {
     const data = saves[i];
     const card = document.createElement('div');
     card.className = 'slot-card' + (data ? '' : ' empty');
+
     if (data) {
       card.innerHTML = `
         <span class="slot-index">${t('slotLabel')} ${i + 1}</span>
         <span class="slot-scene">${escapeHtml(data.preview || data.sceneId)}</span>
         <span class="slot-time">${formatTime(data.timestamp)}${data.lastLine ? ' · ' + escapeHtml(data.lastLine) : ''}</span>
       `;
+
       const actions = document.createElement('div');
       actions.className = 'slot-actions';
+
       if (saveloadMode === 'save' && !fromTitle) {
         const saveBtn = document.createElement('button');
         saveBtn.textContent = t('save');
-        saveBtn.addEventListener('click', (e) => { e.stopPropagation(); saveToSlot(i); });
+        saveBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          saveToSlot(i);
+        });
         actions.appendChild(saveBtn);
       }
+
       if (saveloadMode === 'load' || fromTitle) {
         const loadBtn = document.createElement('button');
         loadBtn.textContent = t('load');
-        loadBtn.addEventListener('click', (e) => { e.stopPropagation(); loadFromSlot(i); });
+        loadBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          loadFromSlot(i);
+        });
         actions.appendChild(loadBtn);
       }
+
       const delBtn = document.createElement('button');
       delBtn.textContent = t('deleteSlot');
-      delBtn.addEventListener('click', (e) => { e.stopPropagation(); deleteSlot(i); });
+      delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteSlot(i);
+      });
       actions.appendChild(delBtn);
+
       card.appendChild(actions);
-      if (saveloadMode === 'load' || fromTitle) card.addEventListener('click', () => loadFromSlot(i));
-      else if (saveloadMode === 'save' && !fromTitle) card.addEventListener('click', () => saveToSlot(i));
+
+      if (saveloadMode === 'load' || fromTitle) {
+        card.addEventListener('click', () => loadFromSlot(i));
+      } else if (saveloadMode === 'save' && !fromTitle) {
+        card.addEventListener('click', () => saveToSlot(i));
+      }
     } else {
       card.innerHTML = `
         <span class="slot-index">${t('slotLabel')} ${i + 1}</span>
         <span class="slot-scene">${t('emptySlot')}</span>
       `;
-      if (saveloadMode === 'save' && !fromTitle) card.addEventListener('click', () => saveToSlot(i));
+      if (saveloadMode === 'save' && !fromTitle) {
+        card.addEventListener('click', () => saveToSlot(i));
+      }
     }
+
     slotList.appendChild(card);
   }
 }
@@ -432,30 +472,54 @@ function showToast(msg) {
 }
 
 function loadScene(sceneId) {
-  if (sceneId === '__TITLE__') { showTitle(); return; }
+  if (sceneId === '__TITLE__') {
+    showTitle();
+    return;
+  }
+
   const scene = SCENES[sceneId];
-  if (!scene) { console.error(`[vn] scene not found: ${sceneId}`); return; }
-  if (scene.auto && scene.next && !scene.text) { loadScene(scene.next); return; }
+  if (!scene) {
+    console.error(`[vn] scene not found: ${sceneId}`);
+    return;
+  }
+
+  if (scene.auto && scene.next && !scene.text) {
+    loadScene(scene.next);
+    return;
+  }
+
   textBox.classList.add('fade-out');
   portraitLayer.classList.add('fade-out');
+
   setTimeout(() => {
     currentSceneId = sceneId;
     currentTextIdx = 0;
+
     applyFx(scene.fx || {});
     applyPortrait(scene);
     refreshSceneHeader();
+
     textBox.classList.remove('fade-out');
     portraitLayer.classList.remove('fade-out');
-    if (scene.text && scene.text.length > 0) renderTextLine(0);
-    else if (scene.choices) renderChoices(scene.choices);
-    else if (scene.next) loadScene(scene.next);
+
+    if (scene.text && scene.text.length > 0) {
+      renderTextLine(0);
+    } else if (scene.choices) {
+      renderChoices(scene.choices);
+    } else if (scene.next) {
+      loadScene(scene.next);
+    }
   }, 280);
 }
 
 function refreshSceneHeader() {
   const scene = SCENES[currentSceneId];
   if (!scene) return;
-  if (scene.titleKey) sceneTitleEl.textContent = t(scene.titleKey);
+
+  if (scene.titleKey) {
+    sceneTitleEl.textContent = t(scene.titleKey);
+  }
+
   if (scene.povKey) {
     povIndicator.textContent = t(scene.povKey);
     povIndicator.style.opacity = '1';
@@ -467,14 +531,18 @@ function refreshSceneHeader() {
 
 function applyPortrait(scene) {
   portraitLayer.innerHTML = '';
+
   let portraitKey = 'neutral';
   if (scene.portrait) portraitKey = scene.portrait;
   if (scene.text && currentTextIdx < scene.text.length) {
     const line = scene.text[currentTextIdx];
     if (line && line.portrait) portraitKey = line.portrait;
   }
+
   const penguin = document.createElement('div');
   penguin.className = `penguin penguin-${portraitKey}`;
+  if (portraitKey === 'shout') penguin.classList.add('shout');
+  if (portraitKey === 'sing') penguin.classList.add('sing');
   penguin.innerHTML = getPenguinPortrait(portraitKey);
   portraitLayer.appendChild(penguin);
 }
@@ -482,23 +550,33 @@ function applyPortrait(scene) {
 function renderTextLine(idx) {
   const scene = SCENES[currentSceneId];
   if (!scene || !scene.text) return;
+
   if (idx >= scene.text.length) {
     if (scene.reveal && REVEALS[scene.reveal]) {
-      showReveal(scene.reveal, () => afterTextDone(scene));
+      showReveal(scene.reveal, () => {
+        afterTextDone(scene);
+      });
       return;
     }
     afterTextDone(scene);
     return;
   }
+
   const line = scene.text[idx];
   currentTextIdx = idx;
-  if (line.speaker !== undefined) speakerName.textContent = line.speaker;
+
+  if (line.speaker !== undefined) {
+    speakerName.textContent = line.speaker;
+  }
+
   applyPortrait(scene);
+
   typewriterText = line.t;
   typewriterIdx = 0;
   isTyping = true;
   textContent.innerHTML = '';
   textContent.className = 'text-content';
+
   if (typewriterTimer) clearInterval(typewriterTimer);
   typewriterTimer = setInterval(() => {
     typewriterIdx++;
@@ -524,19 +602,32 @@ function skipTypewriter() {
 }
 
 function advanceText() {
-  if (isTyping) { skipTypewriter(); return; }
+  if (isTyping) {
+    skipTypewriter();
+    return;
+  }
   renderTextLine(currentTextIdx + 1);
 }
 
 function afterTextDone(scene) {
-  if (scene.choices) renderChoices(scene.choices);
-  else if (scene.next) loadScene(scene.next);
+  if (scene.choices) {
+    renderChoices(scene.choices);
+  } else if (scene.next) {
+    loadScene(scene.next);
+  }
 }
 
 function showReveal(revealKey, onDone) {
   const reveal = REVEALS[revealKey];
-  if (!reveal) { onDone(); return; }
-  if (revealKey.startsWith('reveal')) songsSung.add(revealKey);
+  if (!reveal) {
+    onDone();
+    return;
+  }
+
+  if (revealKey.startsWith('reveal')) {
+    songsSung.add(revealKey);
+  }
+
   revealLayer.innerHTML = '';
   const card = document.createElement('div');
   card.className = 'reveal-card';
@@ -556,11 +647,13 @@ function showReveal(revealKey, onDone) {
 function renderChoices(choices) {
   textContent.innerHTML = '';
   speakerName.textContent = '';
+
   choiceLayer.innerHTML = '';
   const prompt = document.createElement('div');
   prompt.className = 'choice-prompt';
   prompt.textContent = t('choicePrompt');
   choiceLayer.appendChild(prompt);
+
   for (const c of choices) {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
@@ -575,22 +668,30 @@ function renderChoices(choices) {
     }
     btn.addEventListener('click', () => {
       choiceLayer.classList.add('hidden');
-      try { localStorage.setItem(SAVE_KEY + '-auto', JSON.stringify(buildSaveData())); } catch {}
+      try {
+        localStorage.setItem(SAVE_KEY + '-auto', JSON.stringify(buildSaveData()));
+      } catch {}
       loadScene(c.next);
     });
     choiceLayer.appendChild(btn);
   }
+
   choiceLayer.classList.remove('hidden');
 }
 
 function applyFx(fx) {
   fxLayer.className = 'fx-layer';
-  if (fx.grayscale) fxLayer.classList.add('grayscale');
+
+  if (fx.grayscale) {
+    fxLayer.classList.add('grayscale');
+  }
   if (fx.shake) {
     fxLayer.classList.add('shake');
     setTimeout(() => fxLayer.classList.remove('shake'), 400);
   }
-  if (fx.colorize) fxLayer.classList.add('colorize');
+  if (fx.colorize) {
+    fxLayer.classList.add('colorize');
+  }
   if (fx.bg) {
     document.body.classList.remove('bg-rooftop', 'bg-street', 'bg-house');
     document.body.classList.add(`bg-${fx.bg}`);
@@ -612,11 +713,20 @@ function onTextBoxClick(e) {
 function onKeyDown(e) {
   if (e.key === 'Escape') {
     e.preventDefault();
-    if (!saveloadOverlay.classList.contains('hidden')) { closeSaveLoad(); return; }
-    if (!menuOverlay.classList.contains('hidden')) { closeMenu(); return; }
-    if (gameScreen.classList.contains('active')) openMenu();
+    if (!saveloadOverlay.classList.contains('hidden')) {
+      closeSaveLoad();
+      return;
+    }
+    if (!menuOverlay.classList.contains('hidden')) {
+      closeMenu();
+      return;
+    }
+    if (gameScreen.classList.contains('active')) {
+      openMenu();
+    }
     return;
   }
+
   if (gameScreen.classList.contains('active')) {
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
