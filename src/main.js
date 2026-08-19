@@ -3,7 +3,7 @@
 // ====================================================================
 
 import { SCENES, REVEALS } from './data/script.js';
-import { LANGS, setLang, getLang, t, restoreLang, toggleLang } from './i18n.js?v=20260819b';
+import { LANGS, setLang, getLang, t, restoreLang, toggleLang } from './i18n.js?v=20260819c';
 
 const $ = (id) => document.getElementById(id);
 const titleScreen      = $('title-screen');
@@ -40,6 +40,24 @@ let saveloadMode = 'save';
 const SAVE_KEY = 'vn-saves-ki7409';
 const MAX_SLOTS = 3;
 const TRANSITION_MS = 420;
+
+const PORTRAIT_CACHE = '20260819c';
+const PORTRAIT_FALLBACK = `https://raw.githubusercontent.com/yip-lgtm/ki7409-game-jam-202608/main/design/characters/image.png?v=${PORTRAIT_CACHE}`;
+const PORTRAIT_SRC = {
+  neutral: PORTRAIT_FALLBACK,
+  sad:     PORTRAIT_FALLBACK,
+  shout:   PORTRAIT_FALLBACK,
+  sing:    PORTRAIT_FALLBACK,
+};
+
+function getPortraitSrc(expr) {
+  return PORTRAIT_SRC[expr] || PORTRAIT_FALLBACK;
+}
+
+function getPenguinPortrait(expr) {
+  const key = expr || 'neutral';
+  return `<img src="${getPortraitSrc(key)}" alt="高松燈(企鵝版)" class="penguin-img" data-expr="${key}" draggable="false" onerror="this.onerror=null;this.src='${PORTRAIT_FALLBACK}'">`;
+}
 
 function init() {
   restoreLang();
@@ -484,23 +502,6 @@ function refreshSceneHeader() {
   if (scene.titleKey) {
     sceneTitleEl.textContent = t(scene.titleKey);
   }
-}
-
-const PORTRAIT_CACHE = '20260818i';
-const PORTRAIT_SRC = {
-  neutral: `assets/portraits/neutral.svg?v=${PORTRAIT_CACHE}`,
-  sad:     `assets/portraits/sad.svg?v=${PORTRAIT_CACHE}`,
-  shout:   `assets/portraits/shout.svg?v=${PORTRAIT_CACHE}`,
-  sing:    `assets/portraits/sing.svg?v=${PORTRAIT_CACHE}`,
-};
-
-function getPortraitSrc(expr) {
-  return PORTRAIT_SRC[expr] || PORTRAIT_SRC.neutral;
-}
-
-function getPenguinPortrait(expr) {
-  const key = expr || 'neutral';
-  return `<img src="${getPortraitSrc(key)}" alt="高松燈(企鵝版)" class="penguin-img" data-expr="${key}" draggable="false">`;
 }
 
 function applyPortrait(scene) {
