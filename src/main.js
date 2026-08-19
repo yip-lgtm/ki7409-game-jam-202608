@@ -1,22 +1,9 @@
 // ====================================================================
 // main.js — 迷茫即是前進 — 高松燈(企鵝版)篇 — 核心引擎
-//
-// 負責:
-//   - 場景切換 + 轉場淡入淡出
-//   - 打字機文本渲染
-//   - 選項分叉
-//   - 企鵝立繪切換
-//   - 歌名揭示機制(延遲 0.5s)
-//   - FX 視覺效果(灰階 / 震動 / 彩色)
-//   - 標題 / 遊戲 / 製作人員 切換
-//   - 語言切換
-//   - 存檔 / 讀檔系統(3 格)
-//   - 遊戲內選單(ESC)
-//   - 玩家唱過的歌追蹤
 // ====================================================================
 
 import { SCENES, REVEALS } from './data/script.js';
-import { LANGS, setLang, getLang, t, restoreLang, toggleLang } from './i18n.js';
+import { LANGS, setLang, getLang, t, restoreLang, toggleLang } from './i18n.js?v=20260819b';
 
 const $ = (id) => document.getElementById(id);
 const titleScreen      = $('title-screen');
@@ -30,7 +17,6 @@ const portraitLayer  = $('portrait-layer');
 const textBox        = $('text-box');
 const textContent    = $('text-content');
 const speakerName    = $('speaker-name');
-const povIndicator   = $('pov-indicator');
 const choiceLayer    = $('choice-layer');
 const sceneTitleEl   = $('scene-title');
 const langToggle     = $('lang-toggle');
@@ -54,12 +40,6 @@ let saveloadMode = 'save';
 const SAVE_KEY = 'vn-saves-ki7409';
 const MAX_SLOTS = 3;
 const TRANSITION_MS = 420;
-const PORTRAIT_URL = 'https://raw.githubusercontent.com/yip-lgtm/ki7409-game-jam-202608/main/design/characters/image.png?v=20260818h';
-
-function getPenguinPortrait(expr) {
-  const key = expr || 'neutral';
-  return `<img src="${PORTRAIT_URL}" alt="高松燈(企鵝版)" class="penguin-img" data-expr="${key}" draggable="false">`;
-}
 
 function init() {
   restoreLang();
@@ -86,6 +66,21 @@ function init() {
   $('menu-load').addEventListener('click', () => { closeMenu(); openSaveLoad('load'); });
   $('menu-title-btn').addEventListener('click', onBackToTitle);
   $('saveload-back').addEventListener('click', closeSaveLoad);
+
+  const titlePenguin = document.querySelector('.title-penguin');
+  if (titlePenguin) {
+    const expressions = ['neutral', 'shout', 'sad', 'sing'];
+    let exprIdx = 0;
+    const img = titlePenguin.querySelector('img');
+    if (img) img.src = getPortraitSrc('neutral');
+    titlePenguin.addEventListener('click', () => {
+      exprIdx = (exprIdx + 1) % expressions.length;
+      if (img) {
+        img.src = getPortraitSrc(expressions[exprIdx]);
+        img.dataset.expr = expressions[exprIdx];
+      }
+    });
+  }
 }
 
 function applyLangToUI() {
@@ -255,7 +250,6 @@ function buildSaveData() {
     lastLine = scene.text[currentTextIdx].t || '';
     if (lastLine.length > 40) lastLine = lastLine.slice(0, 40) + '…';
   }
-
   return {
     sceneId: currentSceneId,
     textIdx: currentTextIdx,
@@ -345,11 +339,8 @@ function hasAnySave() {
 function refreshContinueButton() {
   const btn = $('btn-continue');
   if (!btn) return;
-  if (hasAnySave()) {
-    btn.classList.remove('hidden');
-  } else {
-    btn.classList.add('hidden');
-  }
+  if (hasAnySave()) btn.classList.remove('hidden');
+  else btn.classList.add('hidden');
 }
 
 function formatTime(ts) {
@@ -388,52 +379,35 @@ function closeSaveLoad() {
 function renderSlotList(fromTitle = false) {
   const saves = getSaves();
   slotList.innerHTML = '';
-
   for (let i = 0; i < MAX_SLOTS; i++) {
     const data = saves[i];
     const card = document.createElement('div');
     card.className = 'slot-card' + (data ? '' : ' empty');
-
     if (data) {
       card.innerHTML = `
         <span class="slot-index">${t('slotLabel')} ${i + 1}</span>
         <span class="slot-scene">${escapeHtml(data.preview || data.sceneId)}</span>
         <span class="slot-time">${formatTime(data.timestamp)}${data.lastLine ? ' · ' + escapeHtml(data.lastLine) : ''}</span>
       `;
-
       const actions = document.createElement('div');
       actions.className = 'slot-actions';
-
       if (saveloadMode === 'save' && !fromTitle) {
         const saveBtn = document.createElement('button');
         saveBtn.textContent = t('save');
-        saveBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          saveToSlot(i);
-        });
+        saveBtn.addEventListener('click', (e) => { e.stopPropagation(); saveToSlot(i); });
         actions.appendChild(saveBtn);
       }
-
       if (saveloadMode === 'load' || fromTitle) {
         const loadBtn = document.createElement('button');
         loadBtn.textContent = t('load');
-        loadBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          loadFromSlot(i);
-        });
+        loadBtn.addEventListener('click', (e) => { e.stopPropagation(); loadFromSlot(i); });
         actions.appendChild(loadBtn);
       }
-
       const delBtn = document.createElement('button');
       delBtn.textContent = t('deleteSlot');
-      delBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        deleteSlot(i);
-      });
+      delBtn.addEventListener('click', (e) => { e.stopPropagation(); deleteSlot(i); });
       actions.appendChild(delBtn);
-
       card.appendChild(actions);
-
       if (saveloadMode === 'load' || fromTitle) {
         card.addEventListener('click', () => loadFromSlot(i));
       } else if (saveloadMode === 'save' && !fromTitle) {
@@ -448,7 +422,6 @@ function renderSlotList(fromTitle = false) {
         card.addEventListener('click', () => saveToSlot(i));
       }
     }
-
     slotList.appendChild(card);
   }
 }
@@ -476,32 +449,25 @@ function loadScene(sceneId) {
     showTitle();
     return;
   }
-
   const scene = SCENES[sceneId];
   if (!scene) {
     console.error(`[vn] scene not found: ${sceneId}`);
     return;
   }
-
   if (scene.auto && scene.next && !scene.text) {
     loadScene(scene.next);
     return;
   }
-
   textBox.classList.add('fade-out');
   portraitLayer.classList.add('fade-out');
-
   setTimeout(() => {
     currentSceneId = sceneId;
     currentTextIdx = 0;
-
     applyFx(scene.fx || {});
     applyPortrait(scene);
     refreshSceneHeader();
-
     textBox.classList.remove('fade-out');
     portraitLayer.classList.remove('fade-out');
-
     if (scene.text && scene.text.length > 0) {
       renderTextLine(0);
     } else if (scene.choices) {
@@ -515,30 +481,36 @@ function loadScene(sceneId) {
 function refreshSceneHeader() {
   const scene = SCENES[currentSceneId];
   if (!scene) return;
-
   if (scene.titleKey) {
     sceneTitleEl.textContent = t(scene.titleKey);
   }
+}
 
-  if (scene.povKey) {
-    povIndicator.textContent = t(scene.povKey);
-    povIndicator.style.opacity = '1';
-  } else {
-    povIndicator.textContent = '';
-    povIndicator.style.opacity = '0';
-  }
+const PORTRAIT_CACHE = '20260818i';
+const PORTRAIT_SRC = {
+  neutral: `assets/portraits/neutral.svg?v=${PORTRAIT_CACHE}`,
+  sad:     `assets/portraits/sad.svg?v=${PORTRAIT_CACHE}`,
+  shout:   `assets/portraits/shout.svg?v=${PORTRAIT_CACHE}`,
+  sing:    `assets/portraits/sing.svg?v=${PORTRAIT_CACHE}`,
+};
+
+function getPortraitSrc(expr) {
+  return PORTRAIT_SRC[expr] || PORTRAIT_SRC.neutral;
+}
+
+function getPenguinPortrait(expr) {
+  const key = expr || 'neutral';
+  return `<img src="${getPortraitSrc(key)}" alt="高松燈(企鵝版)" class="penguin-img" data-expr="${key}" draggable="false">`;
 }
 
 function applyPortrait(scene) {
   portraitLayer.innerHTML = '';
-
   let portraitKey = 'neutral';
   if (scene.portrait) portraitKey = scene.portrait;
   if (scene.text && currentTextIdx < scene.text.length) {
     const line = scene.text[currentTextIdx];
     if (line && line.portrait) portraitKey = line.portrait;
   }
-
   const penguin = document.createElement('div');
   penguin.className = `penguin penguin-${portraitKey}`;
   if (portraitKey === 'shout') penguin.classList.add('shout');
@@ -550,33 +522,25 @@ function applyPortrait(scene) {
 function renderTextLine(idx) {
   const scene = SCENES[currentSceneId];
   if (!scene || !scene.text) return;
-
   if (idx >= scene.text.length) {
     if (scene.reveal && REVEALS[scene.reveal]) {
-      showReveal(scene.reveal, () => {
-        afterTextDone(scene);
-      });
+      showReveal(scene.reveal, () => { afterTextDone(scene); });
       return;
     }
     afterTextDone(scene);
     return;
   }
-
   const line = scene.text[idx];
   currentTextIdx = idx;
-
   if (line.speaker !== undefined) {
     speakerName.textContent = line.speaker;
   }
-
   applyPortrait(scene);
-
   typewriterText = line.t;
   typewriterIdx = 0;
   isTyping = true;
   textContent.innerHTML = '';
   textContent.className = 'text-content';
-
   if (typewriterTimer) clearInterval(typewriterTimer);
   typewriterTimer = setInterval(() => {
     typewriterIdx++;
@@ -610,24 +574,14 @@ function advanceText() {
 }
 
 function afterTextDone(scene) {
-  if (scene.choices) {
-    renderChoices(scene.choices);
-  } else if (scene.next) {
-    loadScene(scene.next);
-  }
+  if (scene.choices) renderChoices(scene.choices);
+  else if (scene.next) loadScene(scene.next);
 }
 
 function showReveal(revealKey, onDone) {
   const reveal = REVEALS[revealKey];
-  if (!reveal) {
-    onDone();
-    return;
-  }
-
-  if (revealKey.startsWith('reveal')) {
-    songsSung.add(revealKey);
-  }
-
+  if (!reveal) { onDone(); return; }
+  if (revealKey.startsWith('reveal')) songsSung.add(revealKey);
   revealLayer.innerHTML = '';
   const card = document.createElement('div');
   card.className = 'reveal-card';
@@ -647,13 +601,11 @@ function showReveal(revealKey, onDone) {
 function renderChoices(choices) {
   textContent.innerHTML = '';
   speakerName.textContent = '';
-
   choiceLayer.innerHTML = '';
   const prompt = document.createElement('div');
   prompt.className = 'choice-prompt';
   prompt.textContent = t('choicePrompt');
   choiceLayer.appendChild(prompt);
-
   for (const c of choices) {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
@@ -668,30 +620,22 @@ function renderChoices(choices) {
     }
     btn.addEventListener('click', () => {
       choiceLayer.classList.add('hidden');
-      try {
-        localStorage.setItem(SAVE_KEY + '-auto', JSON.stringify(buildSaveData()));
-      } catch {}
+      try { localStorage.setItem(SAVE_KEY + '-auto', JSON.stringify(buildSaveData())); } catch {}
       loadScene(c.next);
     });
     choiceLayer.appendChild(btn);
   }
-
   choiceLayer.classList.remove('hidden');
 }
 
 function applyFx(fx) {
   fxLayer.className = 'fx-layer';
-
-  if (fx.grayscale) {
-    fxLayer.classList.add('grayscale');
-  }
+  if (fx.grayscale) fxLayer.classList.add('grayscale');
   if (fx.shake) {
     fxLayer.classList.add('shake');
     setTimeout(() => fxLayer.classList.remove('shake'), 400);
   }
-  if (fx.colorize) {
-    fxLayer.classList.add('colorize');
-  }
+  if (fx.colorize) fxLayer.classList.add('colorize');
   if (fx.bg) {
     document.body.classList.remove('bg-rooftop', 'bg-street', 'bg-house');
     document.body.classList.add(`bg-${fx.bg}`);
@@ -713,20 +657,11 @@ function onTextBoxClick(e) {
 function onKeyDown(e) {
   if (e.key === 'Escape') {
     e.preventDefault();
-    if (!saveloadOverlay.classList.contains('hidden')) {
-      closeSaveLoad();
-      return;
-    }
-    if (!menuOverlay.classList.contains('hidden')) {
-      closeMenu();
-      return;
-    }
-    if (gameScreen.classList.contains('active')) {
-      openMenu();
-    }
+    if (!saveloadOverlay.classList.contains('hidden')) { closeSaveLoad(); return; }
+    if (!menuOverlay.classList.contains('hidden')) { closeMenu(); return; }
+    if (gameScreen.classList.contains('active')) openMenu();
     return;
   }
-
   if (gameScreen.classList.contains('active')) {
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
@@ -752,10 +687,10 @@ function onLangToggleClick() {
 
 function escapeHtml(s) {
   return String(s)
-    .replace(/&/g, '&')
-    .replace(/</g, '<')
-    .replace(/>/g, '>')
-    .replace(/"/g, '"')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
 
