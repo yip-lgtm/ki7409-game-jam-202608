@@ -1,9 +1,5 @@
 # ====================================================================
 # GitHub Pages — 自動 deploy src/ 子目錄
-#
-# 觸發: push 到 main 分支
-# 來源: src/ 目錄（外加立繪 image.png）
-# 目標: GitHub Pages
 # ====================================================================
 
 name: Deploy src/ to GitHub Pages
@@ -32,11 +28,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Copy Tomori penguin portrait into src/
+      - name: Stage portraits into src/
         run: |
           mkdir -p src/assets/portraits
-          cp design/characters/image.png src/assets/portraits/tomori.png
-          ls -la src/assets/portraits/tomori.png
+          if [ -f design/characters/image.png ]; then
+            cp design/characters/image.png src/assets/portraits/tomori.png
+            cp design/characters/image.png src/assets/portraits/neutral.png
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
